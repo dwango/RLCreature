@@ -1,0 +1,3 @@
+[submodule "Assets/MotionGenerator"]
+	path = Assets/MotionGenerator
+	url = git@github.o-in.dwango.co.jp:Dada/MotionGenerator.git

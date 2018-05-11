@@ -5,14 +5,278 @@
  | |  | | (_| | |_| | | |_| |\  | |____   | |
  |_|  |_|\__,_|\__|_| |_(_)_| \_|______|  |_|
 
- Math.NET Numerics - http://numerics.mathdotnet.com
+ Math.NET Numerics - https://numerics.mathdotnet.com
  Copyright (c) Math.NET - Open Source MIT/X11 License
 
- Math.NET Numerics v3.4.0
+ Math.NET Numerics v4.4.1
+
+### 4.4.1 - 2018-05-06
+* Build: strong-name edition .Signed NuGet packages are available again
+
+### 4.4.0 - 2018-02-25
+* Linear Algebra: managed provider performance improvements on basic vector arithmetics
+
+### 4.3.0 - 2018-02-24
+* FFT: migrate managed algorithms to provider, streamline implementation wiring, scaling logic.
+* FFT: obsoleted algorithm-specific functions like Radix2Forward, they use Forward internally until v5.
+* FFT: migrate "naive" implementation to tests as reference implementation.
+* Build: fix NuGet packaging sucht that the included assemblies are really code-signed.
+
+### 4.2.0 - 2018-02-21
+* Native Providers: MklProvider and similar types now public (entry point for memory management, etc)
+* Native Providers: All providers now support freeing resources without unloading the provider
+* Native Providers: MKL provider sets consistency, precision and accuracy modes earlier to ensure they are applied
+* Native Providers: If a provider has been loaded successfully, skip any future loading attempts (faster switching)
+* Build: add .Net Framework 4.6.1 target (main package), switch to 4.6.1 for testing projects
+
+### 4.1.0 - 2018-02-19
+* Curve Fitting: Fit.Power, Fit.Exponential, Fit.Logarithm (similar to excel trend curves)
+
+### 4.0.0 - 2018-02-11
+* Explicit builds for .Net Framework 4.0 and higher and for .Net Standard 1.3 and 2.0
+* F#: explicit builds for .Net Framework 4.5 and higher and for .Net Standard 1.6 and 2.0
+* BREAKING: drop obsolete functionality (which has been marked as obsolete for a while)
+* BREAKING: drop support for .Net 3.5 and PCL profiles
+* BREAKING: F#: drop support for .Net 4.0 and PCL profiles
+* BREAKING: F#: depends on FSharp.Core 4.3.3
+* BREAKING: Native provider implementation types internal (but can be constructed explicitly)
+* BREAKING: Native provider control API moved from Control to per-provider Control classes
+* BREAKING: Linear Algebra: Vector.Map consistent with Matrix.Map, automatic fallback to inplace
+* BREAKING: Linear Algebra: Storage providers must always force all parameters (no defaults)
+* BREAKING: Statistics: Ranks and RankInplace of single precision now return single precision arrays
+* BUG: Ode Solver: fix typo in the Runge-Kutta solvers on time-step handling *~Ksero*
+* BUG: fix Matrix.GetHashCode for wide matrices *~mjmckp*
+* BUG: Distributions: BetaScaled no longer ignores optional random source parameter
+* BUG: Trigonometry: Complex trigonometric functions behave better on large imput *~diluculo*
+* BUG: Trigonometry: Fix imaginary part sign of complex hyperbolic cotangent
+* Control.Describe: human readable summary of the effective Math.NET Numerics configuration
+* Providers: Native Provider support in .Net Standard 2.0 (but not in 1.x).
+* Linear Algebra: F# vector/matrix functions to accept all #seq instead of lists only
+* Linear Algebra: Vector MapInplace implemented at storage level
+* Curve Fitting: Fit.LineThroughOrigin shortcut
+* Optimization: Limited-Memory BFGS *~Florian Wechsung*
+* Root Finding: Broyden: step size for calculating appox Jacobian, more robust step size formula *~Aappo Pulkkinen*
+* Statistics: Kernel Density Estimation *~Christoph Albert*
+* Statistics: GoodnessOfFit CoefficientOfDetermination *~Jon Smit*
+* Fixed a whole range of inline documentation typos, misc code quality fixes *~Jonas Nyrup*
+* Examples: moved to examples folder, new framework target integration project file examples
+* Benchmarks: builds for both net46 and netcoreapp2.0
+* Assemblies are now code-signed with an X.509 certificate, using SHA2-256 hashes
+
+### 4.0.0-beta07 - 2018-02-10
+* Curve Fitting: Fit.LineThroughOrigin shortcut
+* Build: Target FSharp.Core 4.3.3 (for better netstandard2.0 compatibility)
+* Build: use latest SDKs and runtimes, cleanups
+
+### 4.0.0-beta06 - 2018-02-03
+* Rework conditional compilation to simplify and increase the .Net Standard api surface
+* BREAKING: Native provider implementation types internal (but can be constructed explicitly)
+* BREAKING: Native provider control API moved from Control to per-provider Control classes
+* Control.Describe: human readable summary of the effective Math.NET Numerics configuration
+* Fixed a whole range of inline documentation typos *~Jonas Nyrup*
+* Build: reworked test build targets, switched to Paket magic mode
+* Examples: moved to examples folder, new framework target integration project file examples
+
+### 4.0.0-beta05 - 2018-01-22
+* BUG: Distributions: BetaScaled no longer ignores optional random source parameter
+* BUG: Trigonometry: Complex trigonometric functions behave on large imput *~diluculo*
+* All: code quality fixes *~Jonas Nyrup*
+
+### 4.0.0-beta04 - 2018-01-13
+* BREAKING: Linear Algebra: Vector.Map consistent with Matrix.Map, automatic fallback to inplace
+* BREAKING: Linear Algebra: Storage providers must always force all parameters (no defaults)
+* Linear Algebra: F# vector/matrix functions to accept all #seq instead of lists only
+* Linear Algebra: Vector MapInplace implemented at storage level
+
+### 4.0.0-beta03 - 2018-01-09
+* Optimization: Limited-Memory BFGS *~Florian Wechsung*
+* BUG: Trigonometry: Fix imaginary part sign of complex hyperbolic cotangent
+
+### 4.0.0-beta02 - 2018-01-07
+* Root Finding: Broyden: step size for calculating appox Jacobian, more robust step size formula *~Aappo Pulkkinen*
+* Statistics: Kernel Density Estimation *~Christoph Albert*
+
+### 4.0.0-beta01 - 2018-01-07
+* BREAKING: drop obsolete functionality (which has been marked as obsolete for a while)
+* BREAKING: drop support for .Net 3.5 and PCL profiles
+* BREAKING: F#: drop support for .Net 4.0 and PCL profiles
+* BREAKING: F#: depends on FSharp.Core 4.2.3
+* Explicit builds for .Net Framework 4.0 and higher and for .Net Standard 1.3 and 2.0
+* F#: explicit builds for .Net Framework 4.5 and higher and for .Net Standard 1.6 and 2.0
+* Assemblies are now code-signed with an X.509 certificate, using SHA2-256 hashes
+* BUG: Ode Solver: fix typo in the Runge-Kutta solvers on time-step handling *~Ksero*
+* BUG: fix Matrix.GetHashCode for wide matrices *~mjmckp*
+
+### 3.20.2 - 2018-01-22
+* Bugfixes backported from v4:
+* BUG: Distributions: BetaScaled no longer ignores optional random source parameter
+* BUG: Trigonometry: Complex trigonometric functions behave on large imput *~diluculo*
+
+### 3.20.1 - 2018-01-13
+* Bugfixes backported from v4:
+* BUG: Trigonometry: Fix imaginary part sign of complex hyperbolic cotangent
+* BUG: Ode Solver: fix typo in the Runge-Kutta solvers on time-step handling *~Ksero*
+* BUG: fix Matrix.GetHashCode for wide matrices *~mjmckp*
+
+### 3.20.0 - 2017-07-15
+* Optimization: non-linear optimization algorithms *~Scott Stephens, Erik Ovegard, bdodson, et al.*
+* Native Providers: from now on also supported in the .Net 3.5 build.
+* BUG: Special Functions: allow more iterations in BetaRegularized *~Elias Abou Jaoude*
+
+### 3.19.0 - 2017-04-29
+* Statistics: RunningStatistics.Combine to better handle empty statistics *~Lucas Godshalk*
+* Linear Algebra: Cholesky.Factorize to reuse the factorization matrix *~mjmckp*
+* Linear Algebra: Fix docs for DoPointwiseMultiply *~Jakub Arnold*
+
+### 3.18.0 - 2017-04-09
+* FFT: single-precision support *~AlexHild*
+
+### 3.17.0 - 2017-01-15
+* Random: random sources (all except crypto) now support ephemeral serialization.
+* Linear Algebra: explicit impl to copy a range of a row of a sparse matrix to a range of a sparse vector *~arthurvb*
+* Linear Algebra: explicitly demand fully modifiable matrix where needed, fixes issues with diagonal matrices.
+* FFT: leverage new matrix internal array access approach in 2D matrix transformations.
+
+### 3.16.0 - 2017-01-03
+* Root Finding: improve accuracy handling *~Konstantin Tretyakov*
+* Regression: GoodnessOfFit StandardError *~David Falkner*
+
+### 3.15.0 - 2016-12-27
+* FFT: MKL native provider backend.
+* FFT: 2D and multi-dimensional FFT (only supported by MKL provider, managed provider pending).
+* FFT: real conjugate-even FFT (only leveraging symmetry in MKL provider).
+* FFT: managed provider significantly faster on x64.
+* Linear Algebra: pointwise trigonometric and basic functions *~Albert Pang*
+* Linear Algebra: better support for F# built-in operators (sqrt, sin, exp, ..) *~Albert Pang*
+* Linear Algebra: pointwise power operator (F#)
+* Linear Algebra: enable experimental matrix product implementation
+* Linear Algebra: better support for matrix to/from row-major arrays and enumerables
+* Linear Algebra: transport allows specifying a result matrix to transpose into, inplace if square
+* Linear Algebra: vector and matrix AsArray and similar to access internal arrays if applicable
+* Linear Algebra: vector and matrix pointwise min/max and absmin/absmax
+* Linear Algebra: dot-power on vectors and matrices, supporting native providers.
+* Linear Algebra: matrix Moore-Penrose pseudo-inverse (SVD backed).
+* Provider Control: separate Control classes for LA and FFT Providers.
+* Provider Control: avoid internal exceptions on provider discovery.
+* Distributions: fix misleading inline docs on Negative-Binomial.
+* Generate: linear integer ranges
+* Root Finding: extend zero-crossing bracketing in derivative-free algorithms.
+* Window: periodic versions of Hamming, Hann, Cosine and Lanczos windows.
+* Special Functions: more robust GammaLowerRegularizedInv (and Gamma.InvCDF).
+* BUG: ODE Solver: fix bug in Runge-Kutta second order routine *~Ksero*
+
+### 3.13.1 - 2016-09-06
+* BUG: Random: Next(x,x+1) must always return x *~Juri*
+
+### 3.13.0 - 2016-08-18
+* Linear Algebra: faster tall, wide managed matrix multiplication. *~Aixile*
+* Euclid: Integer Log2 (DeBruijn sequencences algorithm).
+* Integration: Gauss-Legendre documentation, cleanup. *~Larz White*
+* Random: Integer sub-range sampling to use rejection sampling to avoid bias.
+* Random: Improvements on integer and byte sampling.
+* BUG: Random: CryptoRandomSource must not generate 1.0 samples.
+* BUG: Statistics: fixed bug in WeightedPearson Correlation. *~Jon Smit*
+
+### 3.12.0 - 2016-07-03
+* ODE Solver: Runge-Kutta (order 2, 4) and Adams-Bashforth (order 1-4) algorithms *~Yoonku Hwang*
+* Linear Algebra: faster multiplication of sparse with dense matrices *~Arthur*
+* BUG: Integration: Gauss-Legendre on order 256 *~Sergey Kosukhin*
+* BUG: Distributions: ChiSquared sampling was taking a square root where it should not *~Florian Wechsung*
+
+### 3.11.1 - 2016-04-24
+* BUG: Linear Algebra: sparse vector pointwise multiply/divide to itself
+* BUG: Linear Algebra: Vector.ToVectorString if the first column is wider than maxWidth
+
+### 3.11.0 - 2016-02-13
+* Special Functions: error functions to use static coefficient arrays (perf) *~Joel Sleppy*
+* Integration: Gauss-Legendre Rule (1D, 2D) *~Larz White*
+* Complex: more robust magnitude and division for numbers close to MaxValue or Epsilon *~MaLiN2223*
+* Native Providers: lazy default provider discovery & initialization *~Kuan Bartel*
+* FSharp Package: Quaternion type *~Phil Cleveland*
+
+### 3.10.0 - 2015-12-30
+* Statistics: single-precision floating point support.
+* Statistics: very limited support for int32 and complex numbers.
+* Statistics: Min/Max Absolute, MagnitudePhase (complex).
+* Statistics: FiveNumberSummary to use actual Median instead of R8 quantile.
+* Linear Algebra: matrix Rank to use relative epsilon.
+* Linear Algebra: extensions to convert between single/double precision, complex/real.
+* Linear Algebra: Vector/Matrix storage DataContracts for ephemeral serialization.
+* Regression: more helpful exceptions and messages.
+* Random: 'Next' integer sampling no longer involves floating points, avoids one-off error in MersenneTwister.
+* Precision: EpsilonOf for single-precision numbers, drop no longer needed portable fallbacks.
+
+### 3.9.0 - 2015-11-25
+* Distributions: Normal.CDF avoids problematic subtraction by using Erfc instead of Erf.
+* Statistics: geometric and harmonic mean.
+* Statistics: DataContracts for ephemeral serialization on RunningStatistics, DescriptiveStatistics and Histogram.
+* BUG: Statistics: Histogram did not adjust lower bound correctly when value was equal to the bound *~Volker Breuer*
+* Linear Algebra: minor optimization on how we call Array.Copy.
+* BUG: Linear Algebra: fix bug in Complex and Complex32 SparseMatrix.ToTypeString.
+
+### 3.8.0 - 2015-09-26
+* Distributions: PDF and CDF more robust for large distribution parameters.
+* Distributions: BetaScaled distribution.
+* Distributions: method to create a PERT distribution (based on BetaScaled) *~John C Barstow*
+* Distributions: Weibull.Estimate *~Jon Larborn*
+* Random: NextBoolean extensions.
+* Root Finding: RootFinding.Secant (based on NewtonRaphson) *~grovesNL*
+* Linear Algebra: Matrix Rank calculation now uses a tolerance based on the matrix size.
+* Linear Algebra: Alternative CreateMatrix/Vector functions with type parameter on functions instead of type.
+* Linear Algebra: MKL LinearAlgebra provider requires at least native provider r9 (linear algebra v2.0).
+* Native Providers: automatic handling of intermediate work arrays/buffers in MKL and OpenBLAS providers *~Marcus Cuda, Kuan Bartel*
+* Native Providers: automatically use native provider if available.
+* Native Providers: new Control.TryUse* to make it simpler to use providers if available but without failing if not.
+* Native Providers: improved error state checking and handling *~Marcus Cuda, Kuan Bartel*
+* Combinatorics: generate or select random permutation, combination or variation (shuffling)
+* Finance: rename CompoundMonthlyReturn to CompoundReturn (old now obsolete).
+
+### 3.7.1 - 2015-09-10
+* BUG: Linear Algebra: fix optimized path of adding a sparse matrix to itself.
+
+### 3.7.0 - 2015-05-09
+* Statistics: RunningStatistics now propagates min/max on Combine, handles NaN on Push.
+* Statistics: new MovingStatistics providing descriptive statistics over a moving window *~Marcus Cuda*
+* Statistics: new Statistics.MovingAverage.
+* Statistics: Improved Histogram handling of small-width buckets *~Justin Needham*
+* Distributions: ChiSquare.InvCDF *~logophobia*
+* FFT: Fourier.FrequencyScale to generate the frequency corresponding to each index in frequency space.
+* BUG: FFT: fix Bluestein algorithm for sequences with more than 46341 samples but not power-of-two.
+* Linear Algebra: SparseVector.AbsoluteMaximumIndex *~Matt Heffron*
+* MKL Native Provider: OSX build script *~Marcus Cuda*
+* MKL Native Provider: new combined NuGet package with a proper build target (no more manual file handling needed).
+* OpenBLAS Native Provider: a new linear algebra provider using OpenBLAS *~Kuan Bartel*
+* CUDA Native Provider: a new GPU-based linear algebra provider using Nvidia CUDA *~Matthew A. Johnson*
+* Native Providers: now versioned separately for each kind (MKL, CUDA, OpenBLAS).
+
+### 3.6.0 - 2015-03-22
+* Distributions: ChiSquare.CDF more robust for large numbers *~Baltazar Bieniek*
+* Linear Algebra: MatrixStorage.Map2 equivalent to VectorStorage.Map2
+* Linear Algebra: Matrix and Vector Find/Find2, Exists/Exists2, ForAll/ForAll2
+* Linear Algebra: more consistent range checking in MatrixStorage.Clear and related
+* Linear Algebra: mixed-storage fall back implementations now leverage higher-order functions
+* BUG: Linear Algebra: fix loop range in MatrixStorage.ClearColumns (built-in storage not affected)
+* BUG: Linear Algebra: fix sparse matrix equality.
+* BUG: Linear Algebra: ArgumentException instead of index exception when trying to create an empty matrix.
+* Generate: Unfold, Fibonacci; Normal and Standard replacing Gaussian and Stable.
+* Native Providers: NativeProviderLoader to automatically load the provider for the matching processor architecture (x86, x64) *~Kuan Bartel*
+* Native Providers: Control.NativeProviderPath allowing to explicitly declare where to load binaries from.
+* MKL Native Provider: support for native complex eigen-value decomposition *~Marcus Cuda*
+* MKL Native Provider: non-convergence checks in singular-value and eigen-value decompositions *~Marcus Cuda*
+
+### 3.5.0 - 2015-01-10
+* Differentiation: derivative, partial and mixed partial; hessian & jacobian *~Hythem Sidky*
+* Differentiation: Differentiate facade class for simple use cases
+* Differentiation: F# module for better F# function support.
+* Linear Algebra: matrix ToRowArrays/ToColumnArrays
+* Linear Algebra: F# insertRow, appendRow, prependRow and same also for columns
+* Linear Algebra: F# append, stack and ofMatrixList2
+* Precision: measured machine epsilon, positive vs negative epsilon
 
 ### 3.4.0 - 2015-01-04
 * Special Functions: Generalized Exponential Integral *~Ashley Messer*
 * Special Functions: Regularized Incomplete Gamma domain extended to a=0 *~Ashley Messer*
+* Statistics: weighted Pearson correlation *~ViK*
 * MKL Native Provider: memory functions to free buffers and gather usage statistics *~Marcus Cuda*
 * F#: depend on new official FSharp.Core NuGet package instead of FSharp.Core.Microsoft.Signed
 * F#: simpler NuGet package dependencies (no more need for framework groups)
@@ -22,7 +286,7 @@
 * Linear Algebra: Vector.Fold2 (fold2 in F#), storage optimized
 * Linear Algebra: Minor change how matrix products call the LA provider
 * Linear Algebra: Random generation now leveraging array sampling routines
-* Linear Algebra: fix bug when manually assigning System.Random to random distribution
+* BUG: Linear Algebra: fix bug when manually assigning System.Random to random distribution
 * Root Finding: Change Brent tolerance check, add bracket check *~Hythen Sidky*
 * Root Finding: Auto zero-crossing bracketing in FindRoots facade (not in algorithms)
 * Statistics: RootMeanSquare (RMS)
@@ -39,10 +303,10 @@
 * Build: for core add PCL profiles 7, 78 and 259; for F# extensions drop PCL profile 328
 
 ### 3.2.3 - 2014-09-06
-* Bug fix: MatrixNormal distribution: density for non-square matrices *~Evelina Gabasova*
+* BUG: MatrixNormal distribution: fix density for non-square matrices *~Evelina Gabasova*
 
 ### 3.2.2 - 2014-09-05
-* Bug fix: MatrixNormal distribution: density computation switched row and column covariance *~Evelina Gabasova*
+* BUG: MatrixNormal distribution: density computation switched row and column covariance *~Evelina Gabasova*
 
 ### 3.2.1 - 2014-08-05
 * Package fix: make sure .Net 3.5-only dependencies are not installed on .Net 4 and newer.
@@ -71,10 +335,10 @@
 * Misc docs fixes
 
 ### 3.0.2 - 2014-06-26
-* Patch release, fixing a bug in Matrix.RemoveRow range checks.
+* BUG: fixing a bug in Matrix.RemoveRow range checks.
 
 ### 3.0.1 - 2014-06-24
-* Patch release, fixing a bug in new Matrix.ToMatrixString and Vector.ToVectorString routines.
+* BUG: fixing a bug in new Matrix.ToMatrixString and Vector.ToVectorString routines.
 
 ### 3.0.0 - 2014-06-21
 * First stable v3 release:
@@ -86,7 +350,7 @@
 
 ### 3.0.0-beta05 - 2014-06-20
 * 2nd Candidate for v3.0 Release
-* Distance: fix bug in Hamming distance that skipped the first pair.
+* BUG: Distance: fix bug in Hamming distance that skipped the first pair.
 * F#: packages now include a MathNet.Numerics.fsx script that includes FSI printers and references the assemblies.
 * Linear Algebra: improved matrix and vector ToString formatting, more compact, adaptive to actual numbers.
 * Linear Algebra: CoerceZero for matrix and vector to replace small numbers with zero.
@@ -138,7 +402,7 @@
 * Update Vagrant setup to official Ubuntu 14.04 LTS box and proper apt-style Mono+F# provisioning.
 
 ### 3.0.0-beta01 - 2014-04-01
-* See also: [Roadmap](http://sdrv.ms/17wPFlW) and [Towards Math.NET Numerics Version 3](http://christoph.ruegg.name/blog/towards-mathnet-numerics-v3.html).
+* See also: [Roadmap](https://sdrv.ms/17wPFlW) and [Towards Math.NET Numerics Version 3](http://christoph.ruegg.name/blog/towards-mathnet-numerics-v3.html).
 * **Major release with breaking changes**
 * All obsolete code has been removed
 * Reworked redundancies, inconsistencies and unfortunate past design choices.
@@ -283,7 +547,7 @@
 * Patch release, fixing the NuGet package to work better in WindowsPhone 8 projects. Assemblies are not changed.
 
 ### 2.6.1 - 2013-08-13
-* Patch release, fixing a bug in `ArrayStatistics.Variance` on arrays longer than 46341 entries.
+* BUG: fixing a bug in `ArrayStatistics.Variance` on arrays longer than 46341 entries.
 
 ### 2.6.0 - 2013-07-26
 * See also: [What's New in Math.NET Numerics 2.6](http://christoph.ruegg.name/blog/new-in-mathnet-numerics-2-6.html)
@@ -310,7 +574,7 @@
 * Statistics: Covariance function, in Array-, Streaming- and common Statistics.
 * Distributions: Categorical: distribution more consistent, no longer requires normalized pdf/cdf parameters
 * Distributions: Categorical: inverse CDF function *~Paul Varkey*
-* Distributions: BUG: Fixed static sampling methods of the `Stable` distribution. *~Artyom Baranovskiy*
+* BUG: Distributions: Fixed static sampling methods of the `Stable` distribution. *~Artyom Baranovskiy*
 * BUG: Fixed a bug in the Gamma Regularized special function where in some cases with large values it returned 1 instead of 0 and vice versa.
 * The F# extensions now have a strong name in (and only in) the signed package as well (previously had not been signed). *~Gauthier Segay*
 * Evaluate.Polynomial with new overload which is easier to use.
@@ -332,7 +596,7 @@
    * More reasonable ToString behavior for matrices and vectors: `ToString` methods no longer render the whole structure to a string for large data, among others because they used to wreak havoc in debugging and interactive scenarios like F# FSI. Instead, ToString now only renders an excerpt of the data, together with a line about dimension, type and in case of sparse data a sparseness indicator. The intention is to give a good idea about the data in a visually useful way. How much data is shown can be adjusted in the Control class. See also ToTypeString and ToVector/MatrixString.
    * Performance: reworked and tuned common parallelization. Some operations are up to 3 magnitudes faster in some extreme cases. Replaced copy loops with native routines. More algorithms are storage-aware (and should thus perform better especially on sparse data). *~Thomas Ibel, Iain McDonald, Marcus Cuda*
    * Fixed range checks in the Thin-QR decomposition. *~Marcus Cuda*
-   * Fixed bug in Gram Schmidt for solving tall matrices. *~Marcus Cuda*
+   * BUG: Fixed bug in Gram Schmidt for solving tall matrices. *~Marcus Cuda*
    * Vectors now implement the BCL IList interfaces (fixed-length) for better integration with existing .Net code. *~Scott Stephens*
    * Matrix/Vector parsing has been updated to be able to parse the new visual format as well (see ToMatrixString).
    * DebuggerDisplay attributes for matrices and vectors.
@@ -352,7 +616,7 @@
 ### 2.4.0 - 2013-02-03
 * Drops the dependency on the zlib library. We thus no longer have any dependencies on other packages. *~Marcus Cuda, Thomas Ibel*
 * Adds Modified Bessel & Struve special functions *~Wei Wu*
-* Fixes a bug in our iterative kurtosis statistics formula *~Artyom Baranovskiy*
+* BUG: Fixes a bug in our iterative kurtosis statistics formula *~Artyom Baranovskiy*
 * Linear Algebra: Performance work, this time mostly around accessing matrix rows/columns as vectors. Opting out from targeted patching in our matrix and vector indexers to allow inlining.
 * Linear Algebra: Fixes an issue around Thin-QR solve *~Marcus Cuda*
 * Linear Algebra: Simplifications around using native linear algebra providers (see Math.NET Numerics With Native Linear Algebra)

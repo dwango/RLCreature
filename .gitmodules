@@ -1,3 +1,6 @@
 [submodule "Assets/MotionGenerator"]
 	path = Assets/MotionGenerator
 	url = git@github.o-in.dwango.co.jp:Dada/MotionGenerator.git
+[submodule "Assets/Packages/ChainerCSharp"]
+	path = Assets/Packages/ChainerCSharp
+	url = git@github.o-in.dwango.co.jp:Dada/ChainerCSharp.git

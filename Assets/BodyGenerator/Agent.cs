@@ -10,36 +10,14 @@ namespace BodyGenerator
 {
     public class Agent : MonoBehaviour
     {
-//        [SerializeField] protected GameObject rootObject;
         Body body;
         IBrain brain;
-//        List<GameObject> manipulatableObjects;
-        [SerializeField] bool sync = true;
 
-//        List<IManipulatable> GetChildrenManipulatables()
-//        {
-//            // TODO: search into nested children ?
-//            var returnList = new List<IManipulatable>();
-//            foreach (Transform child in transform)
-//            {
-//                foreach (var component in child.gameObject.GetComponents<IManipulatable>())
-//                {
-//                    returnList.Add((IManipulatable) component);
-//                }
-//            }
-//
-//            return returnList;
-//        }
 
-        
         private List<IManipulatable> GetChildrenManipulatables()
         {
             return transform.gameObject.GetComponentsInChildren<IManipulatable>().ToList();
         }
-//        void Start()
-//        {
-//            throw new NotImplementedException("need to call Init");
-//        }
 
         public void Init(IBrain brain, Body body, List<IAction> actions)
         {
@@ -65,12 +43,6 @@ namespace BodyGenerator
             this.body = body;
         }
 
-        public void Init(IBrain brain, Body body, List<IAction> actions, bool sync)
-        {
-            this.sync = sync;
-            Init(brain, body, actions);
-        }
-
         void GoNextAction()
         {
             State state = body.GetState();
@@ -80,19 +52,9 @@ namespace BodyGenerator
 
         void Update()
         {
-            if (!this.sync)
-            {
-                UpdateAction();
-            }
+            UpdateAction();
         }
 
-        void FixedUpdate()
-        {
-            if (this.sync)
-            {
-                UpdateAction();
-            }
-        }
 
         void UpdateAction()
         {

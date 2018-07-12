@@ -4,7 +4,7 @@ using UnityEngine.Assertions;
 
 namespace BodyGenerator.Manipulatables
 {
-    public class SuperFlexibleMove: ManipulatableBase
+    public class SuperFlexibleMove : ManipulatableBase
     {
         private int _consumedFrames;
         private float _speed = 0.1f;
@@ -27,7 +27,6 @@ namespace BodyGenerator.Manipulatables
 
         public override void UpdateFixedFrame()
         {
-            
             if (_sequence.Sequence.Count > 0)
             {
                 if (_sequence.Sequence.Count != 0 && _sequence[0].time < _consumedFrames)
@@ -36,11 +35,6 @@ namespace BodyGenerator.Manipulatables
                         _sequence[0].value.Count,
                         2
                     );
-//                    var towardVector = new Vector3(
-//                        _sequence[0].value[0] * 2.0f - 1.0f,
-//                        0,
-//                        _sequence[0].value[1] * 2.0f - 1.0f
-//                    );
                     var towardVector = new Vector3(
                         _sequence[0].value[0] > 0.5f ? -1 : 1,
                         0,

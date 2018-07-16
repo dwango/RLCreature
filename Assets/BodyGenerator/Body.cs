@@ -44,7 +44,9 @@ namespace BodyGenerator
             {
                 manipulatable.Init();
             }
-            motor = new Motor(manipulatables);
+
+            var manipulatablesMovables = manipulatables.Where(m => m.GetManipulatableDimention() > 0).ToList();
+            motor = new Motor(manipulatablesMovables);
         }
 
         public State GetState()

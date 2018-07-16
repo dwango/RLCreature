@@ -11,6 +11,10 @@ namespace BodyGenerator.Manipulatables
         private MotionSequence _sequence = new MotionSequence();
         private Rigidbody _rigidbody;
 
+        private SuperFlexibleMove()
+        {
+        }
+
         public static SuperFlexibleMove CreateComponent(GameObject obj, float speed)
         {
             var created = obj.AddComponent<SuperFlexibleMove>();

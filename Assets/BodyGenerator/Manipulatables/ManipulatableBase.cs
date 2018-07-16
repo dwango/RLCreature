@@ -49,6 +49,8 @@ namespace BodyGenerator.Manipulatables
         {
         }
 
-        public abstract void UpdateFixedFrame();
+        public virtual void UpdateFixedFrame()
+        {
+        }
     }
 }

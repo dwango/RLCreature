@@ -75,13 +75,6 @@ namespace RLCreature.Sample
             Mouth.CreateComponent(rootObject, typeof(Food));
             var actions = LocomotionAction.EightDirections();
             var sequenceMaker = new EvolutionarySequenceMaker(epsilon: 0.3f, minimumCandidates: 30);
-//            var brain = new Brain(
-//                new ReinforcementDecisionMaker(discountRatio: 0.9f, keyOrder: new[]
-//                {
-//                    State.BasicKeys.RelativeFoodPosition,
-//                }),
-//                sequenceMaker
-//            );
             var brain = new Brain(
                 new FollowPointDecisionMaker(State.BasicKeys.RelativeFoodPosition),
                 sequenceMaker

@@ -29,7 +29,7 @@ namespace BodyGenerator.Manipulatables
         {
             if (_sequence.Sequence.Count > 0)
             {
-                if (_sequence.Sequence.Count != 0 && _sequence[0].time < _consumedFrames)
+                if (_sequence[0].time < _consumedFrames)
                 {
                     Assert.AreEqual(
                         _sequence[0].value.Count,
@@ -42,12 +42,11 @@ namespace BodyGenerator.Manipulatables
                     );
                     _rigidbody.MovePosition(gameObject.transform.position + towardVector * _speed);
                     _sequence.Sequence.RemoveAt(0);
-                    if (_sequence.Sequence.Count == 0)
-                    {
-                        //fixed when reached to last motion
-                        _isMoving = false;
-                    }
                 }
+            }
+            else
+            {
+                _isMoving = false;
             }
 
             _consumedFrames += 1;

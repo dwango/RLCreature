@@ -14,12 +14,13 @@ namespace RLCreature.Sample
     public class SimpleHuntingEntrypoint : MonoBehaviour
     {
         private Rect _size;
+        public int FoodCount = 100;
 
         private void Start()
         {
             var plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
             plane.transform.position = Vector3.zero;
-            plane.transform.localScale = Vector3.one * 30;
+            plane.transform.localScale = Vector3.one * 20;
             var unitPlaneSize = 10;
             _size = new Rect(
                 (plane.transform.position.x - plane.transform.lossyScale.x * unitPlaneSize) / 2,
@@ -27,10 +28,28 @@ namespace RLCreature.Sample
                 plane.transform.lossyScale.x * unitPlaneSize,
                 plane.transform.lossyScale.y * unitPlaneSize
             );
-            StartCoroutine(SpawnOne());
-            for (int i = 0; i < 100; i++)
+            var creature = SpawnCreature();
+
+            var camera = Camera.main;
+            camera.transform.parent = creature.transform;
+            camera.transform.position = creature.transform.position - creature.transform.forward * 30 +
+                                        creature.transform.up * 10;
+            
+            StartCoroutine(Feeder());
+        }
+
+
+        private IEnumerator Feeder()
+        {
+            while (true)
             {
-                Feed();
+                var foodCount = FindObjectsOfType<Food>().Length;
+                for (int i = 0; i < FoodCount - foodCount; i++)
+                {
+                    Feed();
+                }
+
+                yield return new WaitForSeconds(5);
             }
         }
 
@@ -40,24 +59,20 @@ namespace RLCreature.Sample
             var food = foodObject.AddComponent<Food>();
             food.GetComponent<Renderer>().material.color = Color.green;
             food.transform.position = new Vector3(
-                _size.left + Random.value * _size.width,
-                0,
-                _size.top + Random.value * _size.height
+                x: _size.xMin + Random.value * _size.width,
+                y: 0,
+                z: _size.yMin + Random.value * _size.height
             );
         }
 
-        private IEnumerator SpawnOne()
+        private GameObject SpawnCreature()
         {
             var rootObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
             SuperFlexibleMove.CreateComponent(rootObject, speed: 1f);
             rootObject.AddComponent<Rigidbody>().freezeRotation = true;
             rootObject.GetComponent<Renderer>().material.color = Color.red;
-
-            yield return new WaitForSeconds(1f);
-
             Sensor.CreateComponent(rootObject, typeof(Food), State.BasicKeys.RelativeFoodPosition, range: 100f);
             Mouth.CreateComponent(rootObject, typeof(Food));
-            var agent = rootObject.AddComponent<Agent>();
             var actions = LocomotionAction.EightDirections();
             var sequenceMaker = new EvolutionarySequenceMaker(epsilon: 0.3f, minimumCandidates: 30);
 //            var brain = new Brain(
@@ -71,7 +86,8 @@ namespace RLCreature.Sample
                 new FollowPointDecisionMaker(State.BasicKeys.RelativeFoodPosition),
                 sequenceMaker
             );
-            agent.Init(brain, new Body(rootObject), actions);
+            Agent.CreateComponent(rootObject, brain, new Body(rootObject), actions);
+            return rootObject;
         }
     }
 }

@@ -19,14 +19,14 @@ namespace BodyGenerator
             return transform.gameObject.GetComponentsInChildren<IManipulatable>().ToList();
         }
 
-        public void Init(IBrain brain, Body body, List<IAction> actions)
+        public static Agent CreateComponent(GameObject obj, IBrain brain, Body body, List<IAction> actions)
+        {
+            return obj.AddComponent<Agent>()._CreateComponent(brain, body, actions);
+        }
+
+        private Agent _CreateComponent(IBrain brain, Body body, List<IAction> actions)
         {
             List<IManipulatable> manipulatables = GetChildrenManipulatables();
-            foreach (var manipulatable in manipulatables)
-            {
-                Debug.Log(manipulatable.GetManipulatableId());
-            }
-
             for (int i = 0; i < manipulatables.Count; i++)
             {
                 manipulatables[i].SetManipulatableId(i); // just an ID
@@ -41,6 +41,7 @@ namespace BodyGenerator
                 new List<ISoul>() {new GluttonySoul()});
             this.brain = brain;
             this.body = body;
+            return this;
         }
 
         void GoNextAction()

@@ -1,1 +1,1 @@
-![](20180712_oss_move.gif)
+![](food_hunting_simple.gif)

@@ -38,8 +38,9 @@ namespace BodyGenerator.Manipulatables
             foreach (var candidate in FindObjectsOfType(_type).Select(o => o as MonoBehaviour))
             {
                 var distance = Vector3.Distance(transform.position, candidate.transform.position);
-                if (distance < float.MaxValue)
+                if (distance < minDistance)
                 {
+                    minDistance = distance;
                     var inversedMyRotation = Quaternion.Inverse(transform.rotation);
                     var relativeEachTargetPosition =
                         inversedMyRotation * (candidate.transform.position - transform.position) / _range;

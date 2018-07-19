@@ -1,0 +1,83 @@
+﻿using System.Collections;
+using BodyGenerator;
+using BodyGenerator.Manipulatables;
+using MotionGenerator;
+using RLCreature.Sample;
+using UnityEngine;
+
+namespace Sample.DesignedCreatures
+{
+    public class DesignedCreaturesEntryPoint : MonoBehaviour
+    {
+        private Rect _size;
+        public int FoodCount = 800;
+        public GameObject CentralBody;
+
+        private void Start()
+        {
+            var plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            plane.transform.position = Vector3.zero;
+            plane.transform.localScale = Vector3.one * 100;
+            var unitPlaneSize = 10;
+            _size = new Rect(
+                (plane.transform.position.x - plane.transform.lossyScale.x * unitPlaneSize) / 2,
+                (plane.transform.position.y - plane.transform.lossyScale.y * unitPlaneSize) / 2,
+                plane.transform.lossyScale.x * unitPlaneSize,
+                plane.transform.lossyScale.y * unitPlaneSize
+            );
+            StartCoroutine(Feeder());
+//            StartCoroutine(SpawnSome());
+            var creature = StartCreature(CentralBody);
+            var camera = Camera.main;
+            camera.transform.parent = creature.transform;
+            camera.transform.position = creature.transform.position - creature.transform.forward * 30 +
+                                        creature.transform.up * 10;
+        }
+        
+        
+        private GameObject StartCreature(GameObject creature)
+        {
+            Sensor.CreateComponent(creature, typeof(Food), State.BasicKeys.RelativeFoodPosition, range: 100f);
+            Mouth.CreateComponent(creature, typeof(Food));
+
+            var actions = LocomotionAction.EightDirections();
+            var sequenceMaker = new EvolutionarySequenceMaker(epsilon: 0.3f, minimumCandidates: 30);
+            var brain = new Brain(
+                new FollowPointDecisionMaker(State.BasicKeys.RelativeFoodPosition),
+                sequenceMaker
+            );
+            Agent.CreateComponent(creature, brain, new Body(creature), actions);
+
+            return creature;
+        }
+
+
+        private IEnumerator Feeder()
+        {
+            while (true)
+            {
+                var foodCount = FindObjectsOfType<Food>().Length;
+                for (int i = 0; i < FoodCount - foodCount; i++)
+                {
+                    Feed();
+                }
+
+                yield return new WaitForSeconds(5);
+            }
+        }
+
+        private void Feed()
+        {
+            var foodObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            foodObject.transform.localScale = Vector3.one * 5;
+            var food = foodObject.AddComponent<Food>();
+            food.GetComponent<Renderer>().material.color = Color.green;
+            food.transform.position = new Vector3(
+                x: _size.xMin + Random.value * _size.width,
+                y: 0,
+                z: _size.yMin + Random.value * _size.height
+            );
+        }
+
+    }
+}

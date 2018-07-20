@@ -144,7 +144,7 @@ MonoBehaviour:
   FoodCount: 800
   CreatureRootGameObject: {fileID: 1508029370}
   CentralBody: {fileID: 1514945177}
-  plane: {fileID: 1988297512}
+  Plane: {fileID: 1988297512}
 --- !u!4 &102597530
 Transform:
   m_ObjectHideFlags: 0
@@ -170,7 +170,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeScaleFastMode: 100
-  TargetFramerate: 0
 --- !u!1 &829329979
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,7 +334,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4365583750610504, guid: d8062e29c34d74638a5c8b714104d2f7, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4365583750610504, guid: d8062e29c34d74638a5c8b714104d2f7, type: 2}
       propertyPath: m_LocalPosition.z
@@ -364,97 +363,97 @@ Prefab:
     - target: {fileID: 153969335569455300, guid: d8062e29c34d74638a5c8b714104d2f7,
         type: 2}
       propertyPath: m_ConnectedAnchor.x
-      value: 0.22910309
+      value: 0.22910237
       objectReference: {fileID: 0}
     - target: {fileID: 153969335569455300, guid: d8062e29c34d74638a5c8b714104d2f7,
         type: 2}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.00000007947286
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 153969335569455300, guid: d8062e29c34d74638a5c8b714104d2f7,
         type: 2}
       propertyPath: m_ConnectedAnchor.z
-      value: 0.22910309
+      value: 0.22910231
       objectReference: {fileID: 0}
     - target: {fileID: 153599535142823956, guid: d8062e29c34d74638a5c8b714104d2f7,
         type: 2}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.80434525
+      value: -0.8043465
       objectReference: {fileID: 0}
     - target: {fileID: 153942207751843700, guid: d8062e29c34d74638a5c8b714104d2f7,
         type: 2}
       propertyPath: m_ConnectedAnchor.x
-      value: 0.22910309
+      value: 0.22910213
       objectReference: {fileID: 0}
     - target: {fileID: 153942207751843700, guid: d8062e29c34d74638a5c8b714104d2f7,
         type: 2}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.22910309
+      value: -0.22910208
       objectReference: {fileID: 0}
     - target: {fileID: 153179732644187098, guid: d8062e29c34d74638a5c8b714104d2f7,
         type: 2}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.22910309
+      value: -0.22910213
       objectReference: {fileID: 0}
     - target: {fileID: 153179732644187098, guid: d8062e29c34d74638a5c8b714104d2f7,
         type: 2}
       propertyPath: m_ConnectedAnchor.z
-      value: 0.22910309
+      value: 0.22910208
       objectReference: {fileID: 0}
     - target: {fileID: 153578155886579974, guid: d8062e29c34d74638a5c8b714104d2f7,
         type: 2}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.00000018626451
+      value: -0.00000027939677
       objectReference: {fileID: 0}
     - target: {fileID: 153578155886579974, guid: d8062e29c34d74638a5c8b714104d2f7,
         type: 2}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.8043455
+      value: -0.8043473
       objectReference: {fileID: 0}
     - target: {fileID: 153578155886579974, guid: d8062e29c34d74638a5c8b714104d2f7,
         type: 2}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.00000046566106
+      value: -0.00000018626443
       objectReference: {fileID: 0}
     - target: {fileID: 153734622348014970, guid: d8062e29c34d74638a5c8b714104d2f7,
         type: 2}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.00000037252855
+      value: -0.0000002793964
       objectReference: {fileID: 0}
     - target: {fileID: 153734622348014970, guid: d8062e29c34d74638a5c8b714104d2f7,
         type: 2}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.80434525
+      value: -0.8043465
       objectReference: {fileID: 0}
     - target: {fileID: 153546851664482996, guid: d8062e29c34d74638a5c8b714104d2f7,
         type: 2}
       propertyPath: m_ConnectedAnchor.x
+      value: 0.00000009313219
+      objectReference: {fileID: 0}
+    - target: {fileID: 153546851664482996, guid: d8062e29c34d74638a5c8b714104d2f7,
+        type: 2}
+      propertyPath: m_ConnectedAnchor.y
+      value: -0.8043472
+      objectReference: {fileID: 0}
+    - target: {fileID: 153546851664482996, guid: d8062e29c34d74638a5c8b714104d2f7,
+        type: 2}
+      propertyPath: m_ConnectedAnchor.z
+      value: 0.00000018626443
+      objectReference: {fileID: 0}
+    - target: {fileID: 153911682183721460, guid: d8062e29c34d74638a5c8b714104d2f7,
+        type: 2}
+      propertyPath: m_ConnectedAnchor.x
+      value: -0.22910231
+      objectReference: {fileID: 0}
+    - target: {fileID: 153911682183721460, guid: d8062e29c34d74638a5c8b714104d2f7,
+        type: 2}
+      propertyPath: m_ConnectedAnchor.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 153546851664482996, guid: d8062e29c34d74638a5c8b714104d2f7,
-        type: 2}
-      propertyPath: m_ConnectedAnchor.y
-      value: -0.8043454
-      objectReference: {fileID: 0}
-    - target: {fileID: 153546851664482996, guid: d8062e29c34d74638a5c8b714104d2f7,
-        type: 2}
-      propertyPath: m_ConnectedAnchor.z
-      value: -0.000000093132215
-      objectReference: {fileID: 0}
-    - target: {fileID: 153911682183721460, guid: d8062e29c34d74638a5c8b714104d2f7,
-        type: 2}
-      propertyPath: m_ConnectedAnchor.x
-      value: -0.22910309
-      objectReference: {fileID: 0}
-    - target: {fileID: 153911682183721460, guid: d8062e29c34d74638a5c8b714104d2f7,
-        type: 2}
-      propertyPath: m_ConnectedAnchor.y
-      value: -0.00000007947286
-      objectReference: {fileID: 0}
     - target: {fileID: 153911682183721460, guid: d8062e29c34d74638a5c8b714104d2f7,
         type: 2}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.22910309
+      value: -0.22910225
       objectReference: {fileID: 0}
     - target: {fileID: 4365583750610504, guid: d8062e29c34d74638a5c8b714104d2f7, type: 2}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -591,7 +590,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 7200
+  m_Time: 36000
   m_Parameters:
     serializedVersion: 2
     widthMultiplier: 1
@@ -644,7 +643,7 @@ TrailRenderer:
     alignment: 0
     textureMode: 0
     generateLightingData: 0
-  m_MinVertexDistance: 0.1
+  m_MinVertexDistance: 0.2
   m_Autodestruct: 0
   m_Emitting: 1
 --- !u!1 &1988297512

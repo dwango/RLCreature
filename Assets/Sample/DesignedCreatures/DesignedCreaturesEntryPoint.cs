@@ -47,7 +47,7 @@ namespace Sample.DesignedCreatures
                 new FollowPointDecisionMaker(State.BasicKeys.RelativeFoodPosition),
                 sequenceMaker
             );
-            Agent.CreateComponent(creatureRootGameObject, brain, new Body(creatureRootGameObject), actions);
+            Agent.CreateComponent(creatureRootGameObject, brain, new Body(centralBody), actions);
 
             return centralBody;
         }

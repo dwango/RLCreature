@@ -8,8 +8,8 @@ namespace Sample.DesignedCreatures
     public class Joint : ManipulatableBase
     {
         const int maximumForce = 10000;
-        const float positionDamper = 10;
-        const float positionSpring = 50;
+        const float positionDamper = 20;
+        const float positionSpring = 1000;
 
         float targetForce;
         public List<float> targetAngle;
@@ -24,32 +24,6 @@ namespace Sample.DesignedCreatures
         {
             targetAngle = new List<float> {0, 0, 0};
             joint = GetComponent<ConfigurableJoint>();
-
-//			joint.axis = new Vector3(0,0,0);
-//			joint.secondaryAxis = new Vector3(0,0,1);
-//			joint.anchor = new Vector3 (0.0f, 0.0f, 0.0f);
-
-            joint.autoConfigureConnectedAnchor = true;
-            joint.xMotion = ConfigurableJointMotion.Locked;
-            joint.yMotion = ConfigurableJointMotion.Locked;
-            joint.zMotion = ConfigurableJointMotion.Locked;
-            joint.angularXMotion = ConfigurableJointMotion.Limited;
-            joint.angularYMotion = ConfigurableJointMotion.Limited;
-            joint.angularZMotion = ConfigurableJointMotion.Limited;
-
-            SoftJointLimit softJointLimitLow = new SoftJointLimit();
-            softJointLimitLow.limit = -60;
-            joint.lowAngularXLimit = softJointLimitLow;
-            SoftJointLimit softJointLimitHigh = new SoftJointLimit();
-            softJointLimitHigh.limit = 60;
-            joint.highAngularXLimit = softJointLimitHigh;
-            SoftJointLimit angularYLimit = new SoftJointLimit();
-            angularYLimit.limit = 45;
-            joint.angularYLimit = angularYLimit;
-            SoftJointLimit angularZLimit = new SoftJointLimit();
-            angularZLimit.limit = 0;
-            joint.angularZLimit = angularZLimit;
-            joint.rotationDriveMode = RotationDriveMode.XYAndZ;
         }
 
         public override void Manipulate(MotionSequence sequence)
@@ -63,7 +37,7 @@ namespace Sample.DesignedCreatures
         {
             if (targetAngle.Count != 3)
                 throw new System.ArgumentException("need 3D input");
-            targetForce = 1000;
+            targetForce = 1;
             joint.targetRotation = Quaternion.Euler(
                 targetAngle[0] * (joint.highAngularXLimit.limit - joint.lowAngularXLimit.limit)
                 + joint.lowAngularXLimit.limit,
@@ -81,6 +55,8 @@ namespace Sample.DesignedCreatures
             jdYZ.positionDamper = positionDamper * targetForce;
             jdYZ.positionSpring = positionSpring * targetForce;
             joint.angularYZDrive = jdYZ;
+
+            joint.projectionMode = JointProjectionMode.PositionAndRotation;
         }
 
         public void FixedUpdate()

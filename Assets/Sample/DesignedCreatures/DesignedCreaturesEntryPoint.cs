@@ -11,11 +11,13 @@ namespace Sample.DesignedCreatures
     {
         private Rect _size;
         public int FoodCount = 800;
+        public GameObject CreatureRootGameObject;
         public GameObject CentralBody;
+        public GameObject plane;
 
         private void Start()
         {
-            var plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            //var plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
             plane.transform.position = Vector3.zero;
             plane.transform.localScale = Vector3.one * 100;
             var unitPlaneSize = 10;
@@ -27,7 +29,7 @@ namespace Sample.DesignedCreatures
             );
             StartCoroutine(Feeder());
 //            StartCoroutine(SpawnSome());
-            var creature = StartCreature(CentralBody);
+            var creature = StartCreature(CreatureRootGameObject, CentralBody);
             var camera = Camera.main;
             camera.transform.parent = creature.transform;
             camera.transform.position = creature.transform.position - creature.transform.forward * 30 +
@@ -35,10 +37,10 @@ namespace Sample.DesignedCreatures
         }
         
         
-        private GameObject StartCreature(GameObject creature)
+        private GameObject StartCreature(GameObject creatureRootGameObject, GameObject centralBody)
         {
-            Sensor.CreateComponent(creature, typeof(Food), State.BasicKeys.RelativeFoodPosition, range: 100f);
-            Mouth.CreateComponent(creature, typeof(Food));
+            Sensor.CreateComponent(centralBody, typeof(Food), State.BasicKeys.RelativeFoodPosition, range: 100f);
+            Mouth.CreateComponent(centralBody, typeof(Food));
 
             var actions = LocomotionAction.EightDirections();
             var sequenceMaker = new EvolutionarySequenceMaker(epsilon: 0.3f, minimumCandidates: 30);
@@ -46,9 +48,9 @@ namespace Sample.DesignedCreatures
                 new FollowPointDecisionMaker(State.BasicKeys.RelativeFoodPosition),
                 sequenceMaker
             );
-            Agent.CreateComponent(creature, brain, new Body(creature), actions);
+            Agent.CreateComponent(creatureRootGameObject, brain, new Body(creatureRootGameObject), actions);
 
-            return creature;
+            return creatureRootGameObject;
         }
 
 

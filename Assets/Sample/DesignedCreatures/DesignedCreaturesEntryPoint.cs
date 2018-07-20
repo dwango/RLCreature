@@ -13,19 +13,18 @@ namespace Sample.DesignedCreatures
         public int FoodCount = 800;
         public GameObject CreatureRootGameObject;
         public GameObject CentralBody;
-        public GameObject plane;
+        public GameObject Plane;
 
         private void Start()
         {
-            //var plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            plane.transform.position = Vector3.zero;
-            plane.transform.localScale = Vector3.one * 100;
+            Plane.transform.position = Vector3.zero;
+            Plane.transform.localScale = Vector3.one * 100;
             var unitPlaneSize = 10;
             _size = new Rect(
-                (plane.transform.position.x - plane.transform.lossyScale.x * unitPlaneSize) / 2,
-                (plane.transform.position.y - plane.transform.lossyScale.y * unitPlaneSize) / 2,
-                plane.transform.lossyScale.x * unitPlaneSize,
-                plane.transform.lossyScale.y * unitPlaneSize
+                (Plane.transform.position.x - Plane.transform.lossyScale.x * unitPlaneSize) / 2,
+                (Plane.transform.position.y - Plane.transform.lossyScale.y * unitPlaneSize) / 2,
+                Plane.transform.lossyScale.x * unitPlaneSize,
+                Plane.transform.lossyScale.y * unitPlaneSize
             );
             StartCoroutine(Feeder());
 //            StartCoroutine(SpawnSome());
@@ -50,7 +49,7 @@ namespace Sample.DesignedCreatures
             );
             Agent.CreateComponent(creatureRootGameObject, brain, new Body(creatureRootGameObject), actions);
 
-            return creatureRootGameObject;
+            return centralBody;
         }
 
 

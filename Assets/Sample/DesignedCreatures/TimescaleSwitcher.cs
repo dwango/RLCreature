@@ -14,5 +14,6 @@ public class TimescaleSwitcher : MonoBehaviour
 		{
 			Time.timeScale = TimeScaleFastMode;
 		}
+		Debug.Log(Time.time);
 	}
 }

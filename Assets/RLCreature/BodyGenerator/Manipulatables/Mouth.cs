@@ -19,10 +19,14 @@ namespace RLCreature.BodyGenerator.Manipulatables
         private Mouth _CreateComponent(Type type)
         {
             _type = type;
+            
+            var collider = gameObject.AddComponent<SphereCollider>();
+            collider.isTrigger = true;
+            
             return this;
         }
 
-        private void OnCollisionEnter(Collision other)
+        private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.GetComponent(_type) != null)
             {

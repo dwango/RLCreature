@@ -73,6 +73,7 @@ namespace RLCreature.Sample.DesignedCreatures
             foodObject.transform.localScale = Vector3.one * 5;
             var food = foodObject.AddComponent<Food>();
             food.GetComponent<Renderer>().material.color = Color.green;
+            food.GetComponent<Collider>().isTrigger = true;
             food.transform.position = new Vector3(
                 x: _size.xMin + Random.value * _size.width,
                 y: 0,

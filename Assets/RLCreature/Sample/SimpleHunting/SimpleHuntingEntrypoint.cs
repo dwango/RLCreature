@@ -58,6 +58,7 @@ namespace RLCreature.Sample.SimpleHunting
             var foodObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             var food = foodObject.AddComponent<Food>();
             food.GetComponent<Renderer>().material.color = Color.green;
+            food.GetComponent<Collider>().isTrigger = true;
             food.transform.position = new Vector3(
                 x: _size.xMin + Random.value * _size.width,
                 y: 0,

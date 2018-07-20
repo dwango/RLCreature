@@ -1,19 +1,22 @@
 ﻿using UnityEngine;
 
-public class TimescaleSwitcher : MonoBehaviour
+namespace RLCreature.Sample.DesignedCreatures
 {
-	public float TimeScaleFastMode = 20;
-
-	private void Update ()
+	public class TimescaleSwitcher : MonoBehaviour
 	{
-		if (Input.GetKeyDown(KeyCode.Space))
+		public float TimeScaleFastMode = 20;
+
+		private void Update ()
 		{
-			Time.timeScale = 1;
+			if (Input.GetKeyDown(KeyCode.Space))
+			{
+				Time.timeScale = 1;
+			}
+			if (Input.GetKeyDown(KeyCode.S))
+			{
+				Time.timeScale = TimeScaleFastMode;
+			}
+			Debug.Log(Time.time);
 		}
-		if (Input.GetKeyDown(KeyCode.S))
-		{
-			Time.timeScale = TimeScaleFastMode;
-		}
-		Debug.Log(Time.time);
 	}
 }

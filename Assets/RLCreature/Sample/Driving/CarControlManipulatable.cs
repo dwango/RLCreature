@@ -1,9 +1,9 @@
-﻿using BodyGenerator.Manipulatables;
-using MotionGenerator;
+﻿using MotionGenerator;
+using RLCreature.BodyGenerator.Manipulatables;
 using UnityEngine;
 using UnityStandardAssets.Vehicles.Car;
 
-namespace RLCreature.Sample
+namespace RLCreature.Sample.Driving
 {
     public class CarControlManipulatable : ManipulatableBase
     {

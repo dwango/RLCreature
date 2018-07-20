@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Sample.DesignedCreatures
+namespace RLCreature.Sample.DesignedCreatures
 {
 	public class ManipulatableInitializer : MonoBehaviour
 	{

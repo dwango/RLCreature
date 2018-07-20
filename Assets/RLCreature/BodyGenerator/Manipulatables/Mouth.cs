@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace BodyGenerator.Manipulatables
+namespace RLCreature.BodyGenerator.Manipulatables
 {
     public class Mouth : ManipulatableBase
     {

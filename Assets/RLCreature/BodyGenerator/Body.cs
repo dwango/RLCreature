@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
-using BodyGenerator.Manipulatables;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MotionGenerator;
+using RLCreature.BodyGenerator.Manipulatables;
+using UnityEngine;
 
-namespace BodyGenerator
+namespace RLCreature.BodyGenerator
 {
     public class Motor
     {

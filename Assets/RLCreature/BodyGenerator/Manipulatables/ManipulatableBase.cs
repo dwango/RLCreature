@@ -1,7 +1,7 @@
 ﻿using MotionGenerator;
 using UnityEngine;
 
-namespace BodyGenerator.Manipulatables
+namespace RLCreature.BodyGenerator.Manipulatables
 {
     public abstract class ManipulatableBase : MonoBehaviour, IManipulatable
     {

@@ -1,11 +1,11 @@
 ﻿using System.Collections;
-using BodyGenerator;
-using BodyGenerator.Manipulatables;
 using MotionGenerator;
-using RLCreature.Sample;
+using RLCreature.BodyGenerator;
+using RLCreature.BodyGenerator.Manipulatables;
+using RLCreature.Sample.SimpleHunting;
 using UnityEngine;
 
-namespace Sample.DesignedCreatures
+namespace RLCreature.Sample.DesignedCreatures
 {
     public class DesignedCreaturesEntryPoint : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using MotionGenerator;
 
-namespace BodyGenerator.Manipulatables
+namespace RLCreature.BodyGenerator.Manipulatables
 {
     public interface IManipulatable
     {

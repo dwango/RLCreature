@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using BodyGenerator.Manipulatables;
 using MotionGenerator;
+using RLCreature.BodyGenerator.Manipulatables;
 using UnityEngine;
 
-namespace Sample.DesignedCreatures
+namespace RLCreature.Sample.DesignedCreatures
 {
     public class Joint : ManipulatableBase
     {

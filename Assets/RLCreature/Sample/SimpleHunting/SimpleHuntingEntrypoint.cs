@@ -1,10 +1,10 @@
 ﻿using System.Collections;
-using BodyGenerator;
-using BodyGenerator.Manipulatables;
 using MotionGenerator;
+using RLCreature.BodyGenerator;
+using RLCreature.BodyGenerator.Manipulatables;
 using UnityEngine;
 
-namespace RLCreature.Sample
+namespace RLCreature.Sample.SimpleHunting
 {
     public class Food : MonoBehaviour
     {

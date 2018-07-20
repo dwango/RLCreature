@@ -4,7 +4,7 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using MotionGenerator;
 using UnityEngine;
 
-namespace BodyGenerator.Manipulatables
+namespace RLCreature.BodyGenerator.Manipulatables
 {
     public class Sensor : ManipulatableBase
     {

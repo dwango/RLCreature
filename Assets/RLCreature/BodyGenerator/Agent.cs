@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using BodyGenerator.Manipulatables;
 using MotionGenerator;
 using MotionGenerator.Entity.Soul;
+using RLCreature.BodyGenerator.Manipulatables;
 using UnityEngine;
 
-namespace BodyGenerator
+namespace RLCreature.BodyGenerator
 {
     public class Agent : MonoBehaviour
     {

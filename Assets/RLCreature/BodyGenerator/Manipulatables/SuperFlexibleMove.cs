@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace BodyGenerator.Manipulatables
+namespace RLCreature.BodyGenerator.Manipulatables
 {
     public class SuperFlexibleMove : ManipulatableBase
     {

@@ -14,7 +14,6 @@ namespace RLCreature.Sample.DesignedCreatures
         float targetForce;
         public List<float> targetAngle;
         int consumedFrames = 0;
-        bool isMoving = false;
         int manipulatableId;
 
         ConfigurableJoint joint;
@@ -29,7 +28,7 @@ namespace RLCreature.Sample.DesignedCreatures
         public override void Manipulate(MotionSequence sequence)
         {
             consumedFrames = 0;
-            isMoving = true;
+            this._isMoving = true;
             this.sequence = new MotionSequence(sequence);
         }
 
@@ -71,7 +70,7 @@ namespace RLCreature.Sample.DesignedCreatures
             }
             else
             {
-                this.isMoving = false;
+                this._isMoving = false;
             }
 
             UpdateJointMotor(this.targetAngle);

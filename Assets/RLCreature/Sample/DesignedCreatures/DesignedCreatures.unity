@@ -146,6 +146,7 @@ MonoBehaviour:
   Plane: {fileID: 1988297512}
   CreaturePrefabs:
   - {fileID: 1953114571069078, guid: d8062e29c34d74638a5c8b714104d2f7, type: 2}
+  - {fileID: 1269917917712340, guid: cee15a4c6adc045c89130d4c5f32846c, type: 2}
 --- !u!4 &102597530
 Transform:
   m_ObjectHideFlags: 0

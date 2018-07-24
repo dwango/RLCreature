@@ -37,7 +37,7 @@ namespace RLCreature.Sample.DesignedCreatures
         {
             if (targetAngle.Count != 3)
                 throw new System.ArgumentException("need 3D input");
-            targetForce = 1;
+            targetForce = TargetForce;
             joint.targetRotation = Quaternion.Euler(
                 targetAngle[0] * (joint.highAngularXLimit.limit - joint.lowAngularXLimit.limit)
                 + joint.lowAngularXLimit.limit,

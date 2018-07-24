@@ -19,7 +19,7 @@ namespace RLCreature.Sample.DesignedCreatures
         private void Start()
         {
             Plane.transform.position = Vector3.zero;
-            Plane.transform.localScale = Vector3.one * 20;
+            Plane.transform.localScale = Vector3.one * 10;
             var unitPlaneSize = 10;
             _size = new Rect(
                 (Plane.transform.position.x - Plane.transform.lossyScale.x * unitPlaneSize) / 2,

@@ -142,11 +142,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FoodCount: 800
-  CreatureCountPerPrefab: 10
+  CreatureCountPerPrefab: 1
   Plane: {fileID: 1988297512}
   CreaturePrefabs:
   - {fileID: 1953114571069078, guid: d8062e29c34d74638a5c8b714104d2f7, type: 2}
   - {fileID: 1269917917712340, guid: cee15a4c6adc045c89130d4c5f32846c, type: 2}
+  - {fileID: 1339569868582864, guid: 15252296d4a5c4ba78bb33b9b35f9bea, type: 2}
 --- !u!4 &102597530
 Transform:
   m_ObjectHideFlags: 0
@@ -171,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960355a77c26d48f0982f661f58cd4d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeScaleFastMode: 100
+  TimeScaleFastMode: 30
 --- !u!1 &829329979
 GameObject:
   m_ObjectHideFlags: 0

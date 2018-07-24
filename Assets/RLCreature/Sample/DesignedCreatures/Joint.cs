@@ -10,6 +10,7 @@ namespace RLCreature.Sample.DesignedCreatures
         const int maximumForce = 10000;
         const float positionDamper = 20;
         const float positionSpring = 1000;
+        public float TargetForce;
 
         float targetForce;
         public List<float> targetAngle;
@@ -40,10 +41,9 @@ namespace RLCreature.Sample.DesignedCreatures
             joint.targetRotation = Quaternion.Euler(
                 targetAngle[0] * (joint.highAngularXLimit.limit - joint.lowAngularXLimit.limit)
                 + joint.lowAngularXLimit.limit,
-                targetAngle[1] * joint.angularYLimit.limit,
-                targetAngle[2] * joint.angularZLimit.limit);
+                (targetAngle[1] * 2f - 1f) * joint.angularYLimit.limit,
+                (targetAngle[2] * 2f - 1f) * joint.angularZLimit.limit);
 
-            targetAngle[2] = 0;
             JointDrive jd = joint.angularXDrive;
             jd.maximumForce = maximumForce;
             jd.positionDamper = positionDamper * targetForce;

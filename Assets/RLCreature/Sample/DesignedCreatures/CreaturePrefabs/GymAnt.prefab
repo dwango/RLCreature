@@ -198,6 +198,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4365583750610504}
+  - component: {fileID: 114948627483691804}
   m_Layer: 0
   m_Name: GymAnt
   m_TagString: Untagged
@@ -238,8 +239,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1953114571069078}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.529383, y: -0.1709981, z: -11.733838}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4766214032799886}
   - {fileID: 4819534038085932}
@@ -857,6 +858,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &114948627483691804
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1953114571069078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ff109cffbfd94318b1e8c7c77a1d7b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  JointForcePower: 1
 --- !u!135 &135184007174686884
 SphereCollider:
   m_ObjectHideFlags: 1

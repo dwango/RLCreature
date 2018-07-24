@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using MotionGenerator;
 using RLCreature.BodyGenerator;
 using RLCreature.BodyGenerator.Manipulatables;
@@ -11,14 +12,14 @@ namespace RLCreature.Sample.DesignedCreatures
     {
         private Rect _size;
         public int FoodCount = 800;
-        public GameObject CreatureRootGameObject;
-        public GameObject CentralBody;
+        public int CreatureCountPerPrefab = 10;
         public GameObject Plane;
+        public List<GameObject> CreaturePrefabs;
 
         private void Start()
         {
             Plane.transform.position = Vector3.zero;
-            Plane.transform.localScale = Vector3.one * 100;
+            Plane.transform.localScale = Vector3.one * 20;
             var unitPlaneSize = 10;
             _size = new Rect(
                 (Plane.transform.position.x - Plane.transform.lossyScale.x * unitPlaneSize) / 2,
@@ -28,11 +29,20 @@ namespace RLCreature.Sample.DesignedCreatures
             );
             StartCoroutine(Feeder());
 //            StartCoroutine(SpawnSome());
-            var creature = StartCreature(CreatureRootGameObject, CentralBody);
-            var camera = Camera.main;
-            camera.transform.parent = creature.transform;
-            camera.transform.position = creature.transform.position - creature.transform.forward * 30 +
-                                        creature.transform.up * 10;
+            
+            foreach (var creaturePrefab in CreaturePrefabs)
+            {
+                for (var i = 0; i < CreatureCountPerPrefab; i++)
+                {
+                    var pos = new Vector3(
+                        x: _size.xMin + Random.value * _size.width,
+                        y: 0,
+                        z: _size.yMin + Random.value * _size.height);
+                    var creatureRootGameObject = Instantiate(creaturePrefab, pos, Quaternion.identity);
+                    var creature = StartCreature(creatureRootGameObject,
+                        creatureRootGameObject.transform.GetChild(0).gameObject);
+                }
+            }
         }
         
         
@@ -70,7 +80,7 @@ namespace RLCreature.Sample.DesignedCreatures
         private void Feed()
         {
             var foodObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            foodObject.transform.localScale = Vector3.one * 5;
+            foodObject.transform.localScale = Vector3.one;
             var food = foodObject.AddComponent<Food>();
             food.GetComponent<Renderer>().material.color = Color.green;
             food.GetComponent<Collider>().isTrigger = true;

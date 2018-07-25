@@ -1,34 +1,44 @@
-﻿using MessagePack.Decoders;
+﻿using System;
+using System.Linq;
+using MessagePack.Decoders;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Joint = RLCreature.BodyGenerator.Manipulatables.Joint;
+using Random = UnityEngine.Random;
 
 namespace RLCreature.BodyGenerator.JointGenerator
 {
     public class BodyComponent
     {
-        private MasterConnector[] _masterConnectors;
+        private readonly MasterConnector[] _masterConnectors;
         private readonly SlaveConnector _slaveConnector;
-        public GameObject _centralBody;
+        public readonly GameObject CentralBody;
 
-        public BodyComponent(GameObject prefab, int connectorId = 0, BodyComponent parent = null)
+        public BodyComponent(GameObject prefab, Vector3 pos, int connectorId = -1, BodyComponent parent = null)
         {
-            _centralBody = GameObject.Instantiate(prefab);
-            _centralBody.AddComponent<Rigidbody>();
+            CentralBody = GameObject.Instantiate(prefab, pos, Quaternion.identity);
+            CentralBody.AddComponent<Rigidbody>();
 
-            _masterConnectors = _centralBody.GetComponentsInChildren<MasterConnector>();
+            _masterConnectors = CentralBody.GetComponentsInChildren<MasterConnector>();
             foreach (var connector in _masterConnectors)
             {
                 connector.gameObject.SetActive(false);
             }
 
-            _slaveConnector = _centralBody.GetComponentInChildren<SlaveConnector>();
+            _slaveConnector = CentralBody.GetComponentInChildren<SlaveConnector>();
             _slaveConnector.gameObject.SetActive(false);
 
 
             if (parent != null)
             {
-                parent.Connect(connectorId, this);
+                if (connectorId >= 0)
+                {
+                    parent.Connect(connectorId, this);
+                }
+                else
+                {
+                    parent.ConnectRandom(this);
+                }
             }
             else
             {
@@ -36,14 +46,18 @@ namespace RLCreature.BodyGenerator.JointGenerator
             }
         }
 
+        public BodyComponent(GameObject prefab, int connectorId = -1, BodyComponent parent = null): this(
+            prefab, Vector3.up*10, connectorId, parent){}
+
+
         private void ToRigid()
         {
-            if (_centralBody.GetComponent<Rigidbody>() == null)
+            if (CentralBody.GetComponent<Rigidbody>() == null)
             {
-                _centralBody.AddComponent<Rigidbody>();
+                CentralBody.AddComponent<Rigidbody>();
             }
 
-            foreach (var rigid in _centralBody.GetComponentsInChildren<Rigidbody>())
+            foreach (var rigid in CentralBody.GetComponentsInChildren<Rigidbody>())
             {
                 rigid.solverIterations = 30;
             }
@@ -53,16 +67,15 @@ namespace RLCreature.BodyGenerator.JointGenerator
         private MasterConnector EnableConnector(int connectorId)
         {
             var connector = _masterConnectors[connectorId];
+            GameObject.Destroy(connector.GetComponent<Collider>());
             connector.gameObject.SetActive(true);
-            _centralBody.AddComponent<FixedJoint>().connectedBody = connector.gameObject.AddComponent<Rigidbody>();
             return connector;
         }
 
         private void EnableSlaveConnector()
         {
             _slaveConnector.gameObject.SetActive(true);
-            _centralBody.AddComponent<FixedJoint>().connectedBody =
-                _slaveConnector.gameObject.AddComponent<Rigidbody>();
+            GameObject.Destroy(_slaveConnector.GetComponent<Collider>());
         }
 
         private void Connect(int connectorId, BodyComponent otherComponent)
@@ -72,25 +85,40 @@ namespace RLCreature.BodyGenerator.JointGenerator
             otherComponent.EnableSlaveConnector();
             var rot = connector.transform.rotation * Quaternion.Inverse(otherComponent
                           ._slaveConnector.transform.rotation);
-            otherComponent._centralBody.transform.rotation = rot * otherComponent._centralBody.transform.rotation;
+            otherComponent.CentralBody.transform.rotation = rot * otherComponent.CentralBody.transform.rotation;
             var diff = (connector.transform.position - otherComponent._slaveConnector.transform.position);
-            otherComponent._centralBody.transform.position += diff;
+            otherComponent.CentralBody.transform.position += diff;
 
             otherComponent.ToRigid();
 
-            var joint = connector.gameObject.AddComponent<ConfigurableJoint>();
+            var joint = CentralBody.gameObject.AddComponent<ConfigurableJoint>();
             joint.lowAngularXLimit = new SoftJointLimit {limit = -90};
             joint.highAngularXLimit = new SoftJointLimit {limit = 90};
             joint.angularYLimit = new SoftJointLimit {limit = 90};
             joint.angularZLimit = new SoftJointLimit {limit = 90};
-            joint.connectedBody = otherComponent._slaveConnector.GetComponent<Rigidbody>();
+            joint.projectionMode = JointProjectionMode.PositionAndRotation; // 爆発防止
+            joint.connectedBody = otherComponent.CentralBody.GetComponent<Rigidbody>();
+            joint.anchor = connector.transform.localPosition;
             Joint.CreateComponent(joint, targetForce: 1);
-            Physics.IgnoreCollision(_centralBody.GetComponent<Collider>(), otherComponent._centralBody.GetComponent<Collider>());
+            Physics.IgnoreCollision(CentralBody.GetComponent<Collider>(),
+                otherComponent.CentralBody.GetComponent<Collider>());
+            connector.available = false;
+        }
+
+        public bool HasAvailableConnector()
+        {
+            return _masterConnectors.Any(x => x.available);
         }
 
         public void ConnectRandom(BodyComponent otherComponent)
         {
-            Connect(Random.Range(0, _masterConnectors.Length), otherComponent);
+            var avairableConnectorIDs = _masterConnectors
+                .Select((i, x) => new Tuple<int, MasterConnector>(x, i))
+                .Where(x => x.Item2.available)
+                .Select(x => x.Item1)
+                .ToList();
+
+            Connect(avairableConnectorIDs[Random.Range(0, avairableConnectorIDs.Count)], otherComponent);
         }
     }
 }

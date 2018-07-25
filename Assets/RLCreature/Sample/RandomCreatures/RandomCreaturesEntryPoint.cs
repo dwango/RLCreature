@@ -30,9 +30,37 @@ namespace RLCreature.Sample.RandomCreatures
 
             var generator = new JointGenerator(new[]
             {
-                Resources.Load<GameObject>("Prefabs/Cube")
+                Resources.Load<GameObject>("Prefabs/CubeBody"),
+                Resources.Load<GameObject>("Prefabs/CubeBody2")
+            }, new[]
+            {
+                Resources.Load<GameObject>("Prefabs/CubeArm"),
+                Resources.Load<GameObject>("Prefabs/CubeArm2")
             });
-            var centralBody = generator.Instantiate();
+
+            StartCoroutine(Feeder());
+            StartCoroutine(SpawnSome(generator));
+        }
+
+
+        private IEnumerator SpawnSome(JointGenerator generator)
+        {
+            for (int i = 0; i < 30; i++)
+            {
+                SpawnCreature(generator);
+                yield return new WaitForSeconds(10);
+            }
+        }
+
+        private void SpawnCreature(JointGenerator generator)
+        {
+            var pos = new Vector3(
+                x: _size.xMin + Random.value * _size.width,
+                y: 3,
+                z: _size.yMin + Random.value * _size.height
+            );
+            ;
+            var centralBody = generator.Instantiate(pos);
             Sensor.CreateComponent(centralBody, typeof(Food), State.BasicKeys.RelativeFoodPosition, range: 100f);
             Mouth.CreateComponent(centralBody, typeof(Food));
 
@@ -43,10 +71,7 @@ namespace RLCreature.Sample.RandomCreatures
                 sequenceMaker
             );
             Agent.CreateComponent(centralBody, brain, new Body(centralBody), actions);
-
-            StartCoroutine(Feeder());
         }
-
 
         private IEnumerator Feeder()
         {

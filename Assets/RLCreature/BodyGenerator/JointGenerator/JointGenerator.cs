@@ -1,22 +1,42 @@
-﻿using UnityEngine;
+﻿using Boo.Lang;
+using UnityEngine;
 
 namespace RLCreature.BodyGenerator.JointGenerator
 {
     public class JointGenerator
     {
-        private GameObject[] _prefabs;
+        private readonly GameObject[] _bodyPrefabs;
+        private readonly GameObject[] _armPrefabs;
 
-        public JointGenerator(GameObject[] prefabs)
+        public JointGenerator(GameObject[] bodyPrefabs, GameObject[] armPrefabs)
         {
-            _prefabs = prefabs;
+            _bodyPrefabs = bodyPrefabs;
+            _armPrefabs = armPrefabs;
         }
 
-        public GameObject Instantiate()
+        public GameObject Instantiate(Vector3 pos)
         {
-            var rootComponent = new BodyComponent(_prefabs[Random.Range(0, _prefabs.Length)]);
-            var otherComponent = new BodyComponent(_prefabs[Random.Range(0, _prefabs.Length)], 0, rootComponent);
-            var otherComponent2 = new BodyComponent(_prefabs[Random.Range(0, _prefabs.Length)], 1, rootComponent);
-            return rootComponent._centralBody;
+            var components = new List<BodyComponent>();
+            var rootComponent =
+                new BodyComponent(_bodyPrefabs[UnityEngine.Random.Range(0, _bodyPrefabs.Length)], pos: pos);
+            components.Add(rootComponent);
+            for (int i = 0; i < UnityEngine.Random.Range(1, 20); i++)
+            {
+                // choose parent component
+                for (int j = 0; j < 100; j++)
+                {
+                    var parent = components[Random.Range(0, components.Count)];
+                    if (parent.HasAvailableConnector())
+                    {
+                        var child = new BodyComponent(
+                            _armPrefabs[UnityEngine.Random.Range(0, _armPrefabs.Length)],
+                            parent: parent);
+                        components.Add(child);
+                        break;
+                    }
+                }
+            }
+            return rootComponent.CentralBody;
         }
     }
 }

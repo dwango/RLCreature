@@ -1,4 +1,8 @@
-﻿using RLCreature.BodyGenerator.JointGenerator;
+﻿using MotionGenerator;
+using RLCreature.BodyGenerator;
+using RLCreature.BodyGenerator.JointGenerator;
+using RLCreature.BodyGenerator.Manipulatables;
+using RLCreature.Sample.SimpleHunting;
 using UnityEngine;
 
 namespace RLCreature.Sample.RandomCreatures
@@ -27,7 +31,17 @@ namespace RLCreature.Sample.RandomCreatures
             {
                 Resources.Load<GameObject>("Prefabs/Cube")
             });
-            var creature = generator.Instantiate();
+            var centralBody = generator.Instantiate();
+            Sensor.CreateComponent(centralBody, typeof(Food), State.BasicKeys.RelativeFoodPosition, range: 100f);
+            Mouth.CreateComponent(centralBody, typeof(Food));
+
+            var actions = LocomotionAction.EightDirections();
+            var sequenceMaker = new EvolutionarySequenceMaker(epsilon: 0.3f, minimumCandidates: 30);
+            var brain = new Brain(
+                new FollowPointDecisionMaker(State.BasicKeys.RelativeFoodPosition),
+                sequenceMaker
+            );
+            Agent.CreateComponent(centralBody, brain, new Body(centralBody), actions);
 
 
 //            StartCoroutine(Feeder());

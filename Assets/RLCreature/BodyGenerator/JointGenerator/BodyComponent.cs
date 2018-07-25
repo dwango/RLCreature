@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
+using Joint = RLCreature.BodyGenerator.Manipulatables.Joint;
 
 namespace RLCreature.BodyGenerator.JointGenerator
 {
@@ -7,69 +8,71 @@ namespace RLCreature.BodyGenerator.JointGenerator
     {
         private MasterConnector[] _masterConnectors;
         private readonly SlaveConnector _slaveConnector;
-        public GameObject _instance;
+        public GameObject _centralBody;
 
-        public BodyComponent(GameObject prefab)
+        public BodyComponent(GameObject prefab, int connectorId = 0, BodyComponent parent = null)
         {
-            _instance = GameObject.Instantiate(prefab);
-            _masterConnectors = _instance.GetComponentsInChildren<MasterConnector>();
-            _slaveConnector = _instance.GetComponentInChildren<SlaveConnector>();
-            if (_instance.GetComponent<Rigidbody>() == null)
+            _centralBody = GameObject.Instantiate(prefab);
+            _centralBody.AddComponent<Rigidbody>();
+
+            _masterConnectors = _centralBody.GetComponentsInChildren<MasterConnector>();
+
+            _slaveConnector = _centralBody.GetComponentInChildren<SlaveConnector>();
+
+
+            if (parent != null)
             {
-                _instance.AddComponent<Rigidbody>();
+                parent.Connect(connectorId, this);
             }
-
-            _instance.GetComponent<Rigidbody>().solverIterations = 30;
-            
-            foreach (var collider in _instance.GetComponentsInChildren<Collider>())
+            else
             {
-                collider.enabled = false;
-
+                ToRigid();
             }
-            foreach (var collider in _instance.GetComponentsInChildren<Rigidbody>())
-            {
-                Object.Destroy(collider);                
-
-            }
-
         }
 
-        public void Connect(int connectorId, BodyComponent otherComponent)
+        private void ToRigid()
         {
-//            Assert.IsTrue(connectorId < _slaveConnector.Length);
-//            foreach (var connectorr in _slaveConnector)
-//            {
-//                UnityEngine.Debug.Log(connectorr);
-//                UnityEngine.Debug.Log(connectorr.transform.rotation);
-//            }
+            foreach (var connector in _masterConnectors)
+            {
+                _centralBody.AddComponent<FixedJoint>().connectedBody = connector.gameObject.AddComponent<Rigidbody>();
+            }
 
+            _centralBody.AddComponent<FixedJoint>().connectedBody =
+                _slaveConnector.gameObject.AddComponent<Rigidbody>();
+            if (_centralBody.GetComponent<Rigidbody>() == null)
+            {
+                _centralBody.AddComponent<Rigidbody>();
+            }
 
+            foreach (var rigid in _centralBody.GetComponentsInChildren<Rigidbody>())
+            {
+                rigid.solverIterations = 30;
+            }
+        }
+
+        private void Connect(int connectorId, BodyComponent otherComponent)
+        {
+            Assert.IsTrue(connectorId < _masterConnectors.Length);
             var connector = _masterConnectors[connectorId];
-            UnityEngine.Debug.Log(connector.name);
-            UnityEngine.Debug.Log(connector.transform.rotation);
-            UnityEngine.Debug.Log(otherComponent._instance.transform.rotation);
-            otherComponent._instance.transform.rotation = Quaternion.Inverse(connector.transform.rotation);
-            UnityEngine.Debug.Log(otherComponent._instance.transform.rotation);
-            otherComponent._instance.transform.position = connector.transform.position;
-            foreach (var collider in otherComponent._instance.GetComponentsInChildren<Collider>())
-            {
-                collider.enabled = false;
+            var rot = connector.transform.rotation * Quaternion.Inverse(otherComponent
+                          ._slaveConnector.transform.rotation);
+            otherComponent._centralBody.transform.rotation = rot * otherComponent._centralBody.transform.rotation;
+            var diff = (connector.transform.position - otherComponent._slaveConnector.transform.position);
+            otherComponent._centralBody.transform.position += diff;
 
-            }
-            foreach (var collider in otherComponent._instance.GetComponentsInChildren<Rigidbody>())
-            {
-                Object.Destroy(collider);                
+            otherComponent.ToRigid();
 
-            }
-
-
-//            var joint = connector.gameObject.AddComponent<ConfigurableJoint>()
-//            joint.connectedBody = otherComponent._connenctorFrom.GetComponent<Rigidbody>();
+            var joint = connector.gameObject.AddComponent<ConfigurableJoint>();
+            joint.highAngularXLimit = new SoftJointLimit {limit = 90};
+            joint.angularYLimit = new SoftJointLimit {limit = 90};
+            joint.angularZLimit = new SoftJointLimit {limit = 90};
+            joint.connectedBody = otherComponent._slaveConnector.GetComponent<Rigidbody>();
+            Joint.CreateComponent(joint, targetForce: 1);
         }
 
         public void ConnectRandom(BodyComponent otherComponent)
         {
-            Connect(UnityEngine.Random.Range(0, _masterConnectors.Length), otherComponent);
+            Connect(Random.Range(0, _masterConnectors.Length), otherComponent);
         }
     }
 }

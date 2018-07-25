@@ -79,6 +79,7 @@ namespace RLCreature.BodyGenerator.JointGenerator
             otherComponent.ToRigid();
 
             var joint = connector.gameObject.AddComponent<ConfigurableJoint>();
+            joint.lowAngularXLimit = new SoftJointLimit {limit = -90};
             joint.highAngularXLimit = new SoftJointLimit {limit = 90};
             joint.angularYLimit = new SoftJointLimit {limit = 90};
             joint.angularZLimit = new SoftJointLimit {limit = 90};

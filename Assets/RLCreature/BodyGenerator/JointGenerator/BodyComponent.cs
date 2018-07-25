@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MessagePack.Decoders;
+using UnityEngine;
 using UnityEngine.Assertions;
 using Joint = RLCreature.BodyGenerator.Manipulatables.Joint;
 
@@ -16,8 +17,13 @@ namespace RLCreature.BodyGenerator.JointGenerator
             _centralBody.AddComponent<Rigidbody>();
 
             _masterConnectors = _centralBody.GetComponentsInChildren<MasterConnector>();
+            foreach (var connector in _masterConnectors)
+            {
+                connector.gameObject.SetActive(false);
+            }
 
             _slaveConnector = _centralBody.GetComponentInChildren<SlaveConnector>();
+            _slaveConnector.gameObject.SetActive(false);
 
 
             if (parent != null)
@@ -32,13 +38,6 @@ namespace RLCreature.BodyGenerator.JointGenerator
 
         private void ToRigid()
         {
-            foreach (var connector in _masterConnectors)
-            {
-                _centralBody.AddComponent<FixedJoint>().connectedBody = connector.gameObject.AddComponent<Rigidbody>();
-            }
-
-            _centralBody.AddComponent<FixedJoint>().connectedBody =
-                _slaveConnector.gameObject.AddComponent<Rigidbody>();
             if (_centralBody.GetComponent<Rigidbody>() == null)
             {
                 _centralBody.AddComponent<Rigidbody>();
@@ -50,10 +49,28 @@ namespace RLCreature.BodyGenerator.JointGenerator
             }
         }
 
+
+        private MasterConnector EnableConnector(int connectorId)
+        {
+            var connector = _masterConnectors[connectorId];
+            connector.gameObject.SetActive(true);
+            _centralBody.AddComponent<FixedJoint>().connectedBody = connector.gameObject.AddComponent<Rigidbody>();
+            return connector;
+        }
+
+        private void EnableSlaveConnector()
+        {
+            _slaveConnector.gameObject.SetActive(true);
+            _centralBody.AddComponent<FixedJoint>().connectedBody =
+                _slaveConnector.gameObject.AddComponent<Rigidbody>();
+        }
+
         private void Connect(int connectorId, BodyComponent otherComponent)
         {
             Assert.IsTrue(connectorId < _masterConnectors.Length);
-            var connector = _masterConnectors[connectorId];
+            var connector = EnableConnector(connectorId);
+            otherComponent.EnableSlaveConnector();
+            ;
             var rot = connector.transform.rotation * Quaternion.Inverse(otherComponent
                           ._slaveConnector.transform.rotation);
             otherComponent._centralBody.transform.rotation = rot * otherComponent._centralBody.transform.rotation;

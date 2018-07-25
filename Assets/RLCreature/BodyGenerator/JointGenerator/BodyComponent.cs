@@ -70,7 +70,6 @@ namespace RLCreature.BodyGenerator.JointGenerator
             Assert.IsTrue(connectorId < _masterConnectors.Length);
             var connector = EnableConnector(connectorId);
             otherComponent.EnableSlaveConnector();
-            ;
             var rot = connector.transform.rotation * Quaternion.Inverse(otherComponent
                           ._slaveConnector.transform.rotation);
             otherComponent._centralBody.transform.rotation = rot * otherComponent._centralBody.transform.rotation;
@@ -85,6 +84,7 @@ namespace RLCreature.BodyGenerator.JointGenerator
             joint.angularZLimit = new SoftJointLimit {limit = 90};
             joint.connectedBody = otherComponent._slaveConnector.GetComponent<Rigidbody>();
             Joint.CreateComponent(joint, targetForce: 1);
+            Physics.IgnoreCollision(_centralBody.GetComponent<Collider>(), otherComponent._centralBody.GetComponent<Collider>());
         }
 
         public void ConnectRandom(BodyComponent otherComponent)

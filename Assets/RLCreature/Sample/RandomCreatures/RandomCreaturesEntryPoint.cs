@@ -17,6 +17,7 @@ namespace RLCreature.Sample.RandomCreatures
         private void Start()
         {
             Plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            Plane.GetComponent<Renderer>().material = Resources.Load("Materials/Ground", typeof(Material)) as Material;
             Plane.transform.position = Vector3.zero;
             Plane.transform.localScale = Vector3.one * 100;
             var unitPlaneSize = 10;
@@ -92,7 +93,7 @@ namespace RLCreature.Sample.RandomCreatures
             var foodObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             foodObject.transform.localScale = Vector3.one * 5;
             var food = foodObject.AddComponent<Food>();
-            food.GetComponent<Renderer>().material.color = Color.green;
+            food.GetComponent<Renderer>().material = Resources.Load("Materials/Food", typeof(Material)) as Material;
             food.GetComponent<Collider>().isTrigger = true;
             food.transform.position = new Vector3(
                 x: _size.xMin + Random.value * _size.width,

@@ -15,7 +15,6 @@ namespace RLCreature.Sample.DesignedCreatures
         public int CreatureCountPerPrefab = 10;
         public GameObject Plane;
         public List<GameObject> CreaturePrefabs;
-
         private void Start()
         {
             Plane.transform.position = Vector3.zero;
@@ -76,13 +75,14 @@ namespace RLCreature.Sample.DesignedCreatures
                 yield return new WaitForSeconds(5);
             }
         }
+        
 
         private void Feed()
         {
             var foodObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             foodObject.transform.localScale = Vector3.one;
             var food = foodObject.AddComponent<Food>();
-            food.GetComponent<Renderer>().material.color = Color.green;
+            food.GetComponent<Renderer>().material = Resources.Load("Materials/Food", typeof(Material)) as Material;
             food.GetComponent<Collider>().isTrigger = true;
             food.transform.position = new Vector3(
                 x: _size.xMin + Random.value * _size.width,

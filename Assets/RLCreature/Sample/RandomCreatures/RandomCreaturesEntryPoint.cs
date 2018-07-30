@@ -32,7 +32,10 @@ namespace RLCreature.Sample.RandomCreatures
             var generator = new JointGenerator(new[]
             {
                 Resources.Load<GameObject>("Prefabs/CubeBody"),
-                Resources.Load<GameObject>("Prefabs/CubeBody2")
+                Resources.Load<GameObject>("Prefabs/CubeBody2"),
+                Resources.Load<GameObject>("Prefabs/CylinderBody1"),
+                Resources.Load<GameObject>("Prefabs/SphereBody1"),
+                Resources.Load<GameObject>("Prefabs/CapsuleBody1")
             }, new[]
             {
                 Resources.Load<GameObject>("Prefabs/CubeArm"),

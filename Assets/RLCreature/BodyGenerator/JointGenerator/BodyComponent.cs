@@ -99,7 +99,7 @@ namespace RLCreature.BodyGenerator.JointGenerator
             joint.projectionMode = JointProjectionMode.PositionAndRotation; // 爆発防止
             joint.connectedBody = otherComponent.CentralBody.GetComponent<Rigidbody>();
             joint.anchor = connector.transform.localPosition;
-            Joint.CreateComponent(joint, targetForce: 1);
+            Joint.CreateComponent(joint, targetForce: 0.1f);
             Physics.IgnoreCollision(CentralBody.GetComponent<Collider>(),
                 otherComponent.CentralBody.GetComponent<Collider>());
             connector.available = false;

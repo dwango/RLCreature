@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MotionGenerator;
 using RLCreature.BodyGenerator;
 using RLCreature.BodyGenerator.Manipulatables;
+using RLCreature.Sample.Common.UI;
 using RLCreature.Sample.SimpleHunting;
 using UnityEngine;
 
@@ -15,8 +16,13 @@ namespace RLCreature.Sample.DesignedCreatures
         public int CreatureCountPerPrefab = 10;
         public GameObject Plane;
         public List<GameObject> CreaturePrefabs;
+        private CastUIPresenter GameUI;
+
         private void Start()
         {
+            GameUI = CastUIPresenter.CreateComponent(Camera.main, gameObject);
+            CastCameraController.CreateComponent(Camera.main, GameUI.SelectedCreature, GameUI.FallbackedEventsObservable);
+
             Plane.transform.position = Vector3.zero;
             Plane.transform.localScale = Vector3.one * 10;
             var unitPlaneSize = 10;
@@ -40,12 +46,13 @@ namespace RLCreature.Sample.DesignedCreatures
                     var creatureRootGameObject = Instantiate(creaturePrefab, pos, Quaternion.identity);
                     var creature = StartCreature(creatureRootGameObject,
                         creatureRootGameObject.transform.GetChild(0).gameObject);
+                    GameUI.AddAgent(creature);
                 }
             }
         }
         
         
-        private GameObject StartCreature(GameObject creatureRootGameObject, GameObject centralBody)
+        private Agent StartCreature(GameObject creatureRootGameObject, GameObject centralBody)
         {
             Sensor.CreateComponent(centralBody, typeof(Food), State.BasicKeys.RelativeFoodPosition, range: 100f);
             Mouth.CreateComponent(centralBody, typeof(Food));
@@ -56,9 +63,9 @@ namespace RLCreature.Sample.DesignedCreatures
                 new FollowPointDecisionMaker(State.BasicKeys.RelativeFoodPosition),
                 sequenceMaker
             );
-            Agent.CreateComponent(creatureRootGameObject, brain, new Body(centralBody), actions);
+            var agent = Agent.CreateComponent(creatureRootGameObject, brain, new Body(centralBody), actions);
 
-            return centralBody;
+            return agent;
         }
 
 

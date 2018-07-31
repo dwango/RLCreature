@@ -4,6 +4,7 @@ using System.Linq;
 using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
+
 #if NET_4_6
 
 #endif
@@ -40,6 +41,7 @@ namespace RLCreature.Sample.Common.UI.UIComponents
                 {
                     cell.Value.Selected.Value = false;
                 }
+
                 _selectedCellSubject.Value = null;
             }
             else
@@ -63,10 +65,15 @@ namespace RLCreature.Sample.Common.UI.UIComponents
                     {
                         c.Selected.Value = false;
                     }
+
                     _selectedCellSubject.Value = cell;
                 })
                 .AddTo(cell);
             _cells.Add(creature, cell);
+            if (_cells.Count == 1)
+            {
+                _cells[creature].Selected.Value = true;
+            }
         }
 
         public void Remove(GameObject creature)
@@ -97,6 +104,7 @@ namespace RLCreature.Sample.Common.UI.UIComponents
             {
                 DestroyRecursive(child);
             }
+
             Object.Destroy(target.gameObject);
         }
     }

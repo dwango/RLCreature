@@ -18,6 +18,10 @@ OSS版人工生命
 - MessagePack-CSharp
   - https://github.com/neuecc/MessagePack-CSharp/releases
     - unitypackageをダウンロードしてインストールしてください
+- UniRX
+  - https://assetstore.unity.com/packages/tools/integration/unirx-reactive-extensions-for-unity-17276
+- Standard Assets
+  - https://assetstore.unity.com/packages/essentials/asset-packs/standard-assets-32351
 
 3. デモシーンを開く
 

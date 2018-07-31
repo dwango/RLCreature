@@ -1,8 +1,10 @@
 ﻿using System.Collections;
+using System.Linq;
 using MotionGenerator;
 using RLCreature.BodyGenerator;
 using RLCreature.BodyGenerator.JointGenerator;
 using RLCreature.BodyGenerator.Manipulatables;
+using RLCreature.Sample.Common.UI;
 using RLCreature.Sample.SimpleHunting;
 using UnityEngine;
 
@@ -13,9 +15,14 @@ namespace RLCreature.Sample.RandomCreatures
         private Rect _size;
         public int FoodCount = 800;
         public GameObject Plane;
+        private CastUIPresenter GameUI;
 
         private void Start()
         {
+            GameUI = CastUIPresenter.CreateComponent(Camera.main, gameObject);
+            CastCameraController.CreateComponent(Camera.main, GameUI.SelectedCreature, GameUI.FallbackedEventsObservable);
+            
+            
             Plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
             Plane.GetComponent<Renderer>().material = Resources.Load("Materials/Ground", typeof(Material)) as Material;
             Plane.transform.position = Vector3.zero;
@@ -63,7 +70,6 @@ namespace RLCreature.Sample.RandomCreatures
                 y: 3,
                 z: _size.yMin + Random.value * _size.height
             );
-            ;
             var centralBody = generator.Instantiate(pos);
             Sensor.CreateComponent(centralBody, typeof(Food), State.BasicKeys.RelativeFoodPosition, range: 100f);
             Mouth.CreateComponent(centralBody, typeof(Food));
@@ -74,7 +80,11 @@ namespace RLCreature.Sample.RandomCreatures
                 new FollowPointDecisionMaker(State.BasicKeys.RelativeFoodPosition),
                 sequenceMaker
             );
-            Agent.CreateComponent(centralBody, brain, new Body(centralBody), actions);
+            var agent = Agent.CreateComponent(centralBody, brain, new Body(centralBody), actions);
+
+            const string charas = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん";
+            agent.name = Enumerable.Range(0, Random.Range(3, 7)).Select(_ => charas[Random.Range(0, charas.Length)].ToString()).Aggregate((x, y) => x+y);
+            GameUI.AddAgent(agent);
         }
 
         private IEnumerator Feeder()

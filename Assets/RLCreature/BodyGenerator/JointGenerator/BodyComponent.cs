@@ -17,8 +17,6 @@ namespace RLCreature.BodyGenerator.JointGenerator
         public BodyComponent(GameObject prefab, Vector3 pos, int connectorId = -1, BodyComponent parent = null)
         {
             CentralBody = GameObject.Instantiate(prefab, pos, Quaternion.identity);
-            CentralBody.AddComponent<Rigidbody>();
-
             _masterConnectors = CentralBody.GetComponentsInChildren<MasterConnector>();
             foreach (var connector in _masterConnectors)
             {
@@ -46,8 +44,10 @@ namespace RLCreature.BodyGenerator.JointGenerator
             }
         }
 
-        public BodyComponent(GameObject prefab, int connectorId = -1, BodyComponent parent = null): this(
-            prefab, Vector3.up*10, connectorId, parent){}
+        public BodyComponent(GameObject prefab, int connectorId = -1, BodyComponent parent = null) : this(
+            prefab, Vector3.up * 10, connectorId, parent)
+        {
+        }
 
 
         private void ToRigid()

@@ -36,7 +36,6 @@ namespace RLCreature.BodyGenerator.JointGenerator
                     }
                 }
             }
-//            return rootComponent.CentralBody;
             
             var rootObject = new GameObject();
             foreach (var component in components)
@@ -44,7 +43,6 @@ namespace RLCreature.BodyGenerator.JointGenerator
                 component.CentralBody.transform.parent = rootObject.transform;
 
             }
-
             return rootObject;
         }
     }

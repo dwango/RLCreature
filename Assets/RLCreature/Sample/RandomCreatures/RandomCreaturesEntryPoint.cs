@@ -63,6 +63,12 @@ namespace RLCreature.Sample.RandomCreatures
             }
         }
 
+
+        private string RandomName()
+        {
+            return RandomNameGenerator.EnglishName();
+        }
+
         private void SpawnCreature(JointGenerator generator)
         {
             var pos = new Vector3(
@@ -80,10 +86,9 @@ namespace RLCreature.Sample.RandomCreatures
                 new FollowPointDecisionMaker(State.BasicKeys.RelativeFoodPosition),
                 sequenceMaker
             );
+            
             var agent = Agent.CreateComponent(centralBody, brain, new Body(centralBody), actions);
-
-            const string charas = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん";
-            agent.name = Enumerable.Range(0, Random.Range(3, 7)).Select(_ => charas[Random.Range(0, charas.Length)].ToString()).Aggregate((x, y) => x+y);
+            agent.name = RandomName();
             GameUI.AddAgent(agent);
         }
 

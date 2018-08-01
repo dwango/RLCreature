@@ -22,8 +22,6 @@ namespace RLCreature.Sample.RandomCreatures
             GameUI = CastUIPresenter.CreateComponent(Camera.main, gameObject);
             CastCameraController.CreateComponent(Camera.main, GameUI.SelectedCreature, GameUI.FallbackedEventsObservable);
             
-            
-            Plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
             Plane.GetComponent<Renderer>().material = Resources.Load("Materials/Ground", typeof(Material)) as Material;
             Plane.transform.position = Vector3.zero;
             Plane.transform.localScale = Vector3.one * 100;

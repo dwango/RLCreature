@@ -1,5 +1,9 @@
 # RLCreature
-OSS版人工生命
+
+- [Project Page](https://dmv.nico/ja/casestudy/alife/)
+- [Paper](https://dmv.nico/assets/img/casestudy/alife/siggraph2018_alife.pdf)
+
+![](./docs/20180801_OSS_showcase.gif)
 
 サンプルデモを動かす
 ===========================
@@ -27,3 +31,17 @@ OSS版人工生命
 
 - ひたすらキューブが進むだけ
   - Assets/Sample/SimpleHunting
+
+
+Reference
+===============
+
+```bibtex
+@inproceedings{ogaki2018,
+  author = {Keisuke Ogaki and Masayoshi Nakamura},
+  title = {Real-Time Motion Generation for Imaginary Creatures Using Hierarchical Reinforcement Learning},
+  booktitle = {ACM SIGGRAPH 2018 Studio},
+  year = {2018},
+  publisher = {ACM}
+}
+```

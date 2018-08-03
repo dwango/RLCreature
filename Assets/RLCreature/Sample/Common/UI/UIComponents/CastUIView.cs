@@ -10,9 +10,9 @@ namespace RLCreature.Sample.Common.UI.UIComponents
         public Text CreatureCount;
         public Text FoodCount;
 
-        public Button ALifeListToggleButton;
-        public RectTransform ALifeListRoot;
-        public RectTransform ALifeList;
+        public Button CreatureListToggleButton;
+        public RectTransform CreatureListRoot;
+        public RectTransform CreatureList;
 
         public Button SubCameraToggleButton;
         public RectTransform SubCameraRoot;

@@ -115,7 +115,7 @@ namespace RLCreature.Sample.Common.UI
             });
             SubCameraIsActive = false;
 
-            _creatureInfoList = new CreatureInfoList(_canvasUi.ALifeList);
+            _creatureInfoList = new CreatureInfoList(_canvasUi.CreatureList);
             _creatureInfoList.SelectedCell
                 .Where(x => x != null)
                 .Subscribe(x => SelectedCreature.Value = x.Creature)

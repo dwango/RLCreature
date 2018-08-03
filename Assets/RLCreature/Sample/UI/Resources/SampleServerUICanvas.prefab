@@ -1103,9 +1103,9 @@ MonoBehaviour:
   CreatureCount: {fileID: 114000012326362932}
   FoodCount: {fileID: 114762825312393916}
   Energy: {fileID: 114369187062316074}
-  ALifeListToggleButton: {fileID: 114897926084631818}
-  ALifeListRoot: {fileID: 224178125537967390}
-  ALifeList: {fileID: 224435277860787500}
+  CreatureListToggleButton: {fileID: 114897926084631818}
+  CreatureListRoot: {fileID: 224178125537967390}
+  CreatureList: {fileID: 224435277860787500}
   WatchingEvent: {fileID: 0}
   WatchingCreatureFamily: {fileID: 114094435549769896}
   WatchingCreatureLabel: {fileID: 114588794442942280}

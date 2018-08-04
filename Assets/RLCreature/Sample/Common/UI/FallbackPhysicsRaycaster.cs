@@ -12,6 +12,7 @@ namespace RLCreature.Sample.Common.UI
         {
             var self = attachedCamera.AddComponent<FallbackPhysicsRaycaster>();
             self._fallback = fallback;
+            self.eventMask = 0;
             return self;
         }
 

@@ -22,7 +22,7 @@ namespace RLCreature.BodyGenerator.JointGenerator
         {
             var components = new List<BodyComponent>();
             var rootComponent =
-                new BodyComponent(BodyPrefabs[UnityEngine.Random.Range(0, BodyPrefabs.Length)], pos: pos, baseMass: _baseMass, _targetForce: _targetForce);
+                new BodyComponent(BodyPrefabs[UnityEngine.Random.Range(0, BodyPrefabs.Length)], pos: pos, baseMass: _baseMass, targetForce: _targetForce);
             components.Add(rootComponent);
             for (int i = 0; i < UnityEngine.Random.Range(1, 20); i++)
             {

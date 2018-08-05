@@ -28,6 +28,7 @@ namespace RLCreature.BodyGenerator.Manipulatables
             
             var collider = gameObject.AddComponent<SphereCollider>();
             collider.isTrigger = true;
+            collider.transform.localScale = transform.localScale * 1.5f;
             
             return this;
         }

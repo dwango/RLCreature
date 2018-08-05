@@ -2,6 +2,7 @@
 using MotionGenerator;
 using RLCreature.BodyGenerator;
 using RLCreature.BodyGenerator.Manipulatables;
+using RLCreature.Sample.Common;
 using RLCreature.Sample.Common.UI;
 using RLCreature.Sample.Common.UI.Actions;
 using RLCreature.Sample.Common.UI.UIComponents;
@@ -73,15 +74,9 @@ namespace RLCreature.Sample.VariousHeights
                 y: heightRatio * 3,
                 z: _size.yMin + Random.value * _size.height
             );
-            StartCoroutine(DeleteTimer(foodObject, 60 * 5));
+            StartCoroutine(EntryPointUtility.DeleteTimer(foodObject, 60 * 5));
         }
-
-        private IEnumerator DeleteTimer(GameObject targetObject, int seconds)
-        {
-            yield return new WaitForSeconds(seconds);
-            Destroy(targetObject);
-        }
-
+     
         private GameObject SpawnCreature(bool reinforcement = true)
         {
             var rootObject = new GameObject();
@@ -112,17 +107,10 @@ namespace RLCreature.Sample.VariousHeights
             );
             var agent = Agent.CreateComponent(rootObject, brain, new Body(creature), actions);
             var info = GameUI.AddAgent(agent);
-            StartCoroutine(Rename(info, mouth, baseName: reinforcement ? "Reinforce" : "Rule"));
+            agent.name = reinforcement ? "Reinforce" : "Rule";
+            StartCoroutine(EntryPointUtility.Rename(info, agent, mouth));
             return creature;
         }
 
-        private IEnumerator Rename(CreatureInfoCell agent, Mouth mouth, string baseName)
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(10);
-                agent.DisplayName = baseName + ":" + mouth.EatenCount.ToString();
-            }
-        }
     }
 }

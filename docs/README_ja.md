@@ -2,8 +2,8 @@
 
 スマートフォンで人工生命数十体がリアルタイムに学習可能な深層強化学習
 
-- [Project Page](https://dmv.nico/ja/casestudy/alife/)
-- [Paper](https://dmv.nico/assets/img/casestudy/alife/siggraph2018_alife.pdf)
+### [詳細ページ](https://dmv.nico/ja/casestudy/alife/)
+### [論文](https://dmv.nico/assets/img/casestudy/alife/siggraph2018_alife.pdf)
 
 ![](./20180801_OSS_showcase.gif)
 

@@ -5,20 +5,20 @@ namespace RLCreature.BodyGenerator.JointGenerator
 {
     public class JointGenerator
     {
-        private readonly GameObject[] _bodyPrefabs;
-        private readonly GameObject[] _armPrefabs;
+        protected readonly GameObject[] BodyPrefabs;
+        protected readonly GameObject[] ArmPrefabs;
 
         public JointGenerator(GameObject[] bodyPrefabs, GameObject[] armPrefabs)
         {
-            _bodyPrefabs = bodyPrefabs;
-            _armPrefabs = armPrefabs;
+            BodyPrefabs = bodyPrefabs;
+            ArmPrefabs = armPrefabs;
         }
 
-        public GameObject Instantiate(Vector3 pos)
+        public virtual GameObject Instantiate(Vector3 pos)
         {
             var components = new List<BodyComponent>();
             var rootComponent =
-                new BodyComponent(_bodyPrefabs[UnityEngine.Random.Range(0, _bodyPrefabs.Length)], pos: pos);
+                new BodyComponent(BodyPrefabs[UnityEngine.Random.Range(0, BodyPrefabs.Length)], pos: pos);
             components.Add(rootComponent);
             for (int i = 0; i < UnityEngine.Random.Range(1, 20); i++)
             {
@@ -29,13 +29,18 @@ namespace RLCreature.BodyGenerator.JointGenerator
                     if (parent.HasAvailableConnector())
                     {
                         var child = new BodyComponent(
-                            _armPrefabs[UnityEngine.Random.Range(0, _armPrefabs.Length)],
+                            ArmPrefabs[UnityEngine.Random.Range(0, ArmPrefabs.Length)],
                             parent: parent);
                         components.Add(child);
                         break;
                     }
                 }
             }
+            
+            
+
+            rootComponent.CentralBody.GetComponent<Rigidbody>().centerOfMass = new Vector3(0f, -10f, 0f);;
+            rootComponent.CentralBody.GetComponent<Rigidbody>().mass *= 5;
             
             var rootObject = new GameObject();
             foreach (var component in components)

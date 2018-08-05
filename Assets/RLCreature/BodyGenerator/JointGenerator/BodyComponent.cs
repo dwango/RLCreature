@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MessagePack.Decoders;
 using UnityEngine;
@@ -60,6 +61,8 @@ namespace RLCreature.BodyGenerator.JointGenerator
             foreach (var rigid in CentralBody.GetComponentsInChildren<Rigidbody>())
             {
                 rigid.solverIterations = 30;
+                rigid.mass = 500;
+                rigid.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             }
         }
 
@@ -99,10 +102,16 @@ namespace RLCreature.BodyGenerator.JointGenerator
             joint.projectionMode = JointProjectionMode.PositionAndRotation; // 爆発防止
             joint.connectedBody = otherComponent.CentralBody.GetComponent<Rigidbody>();
             joint.anchor = connector.transform.localPosition;
-            Joint.CreateComponent(joint, targetForce: 0.1f);
+            Joint.CreateComponent(joint, targetForce: 10f);
             Physics.IgnoreCollision(CentralBody.GetComponent<Collider>(),
                 otherComponent.CentralBody.GetComponent<Collider>());
             connector.available = false;
+            connector.ConnectedComponent = otherComponent;
+        }
+
+        public IEnumerable<BodyComponent> GetSlaves()
+        {
+            return _masterConnectors.Where(c => !c.available).Select(c => c.ConnectedComponent);
         }
 
         public bool HasAvailableConnector()

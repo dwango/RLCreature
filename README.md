@@ -1,7 +1,7 @@
 # RLCreature for Unity ([日本語](./docs/README_ja.md))
 
-- [Project Page](https://dmv.nico/ja/casestudy/alife/)
-- [Paper](https://dmv.nico/assets/img/casestudy/alife/siggraph2018_alife.pdf)
+### [Project Page](https://dmv.nico/ja/casestudy/alife/)
+### [Paper](https://dmv.nico/assets/img/casestudy/alife/siggraph2018_alife.pdf)
 
 ![](./docs/20180801_OSS_showcase.gif)
 

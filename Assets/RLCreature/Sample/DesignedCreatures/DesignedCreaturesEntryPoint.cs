@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using MotionGenerator;
+using MotionGenerator.Entity.Soul;
 using RLCreature.BodyGenerator;
 using RLCreature.BodyGenerator.Manipulatables;
 using RLCreature.Sample.Common.UI;
+using RLCreature.Sample.Common.UI.Actions;
 using RLCreature.Sample.SimpleHunting;
 using UnityEngine;
 
@@ -12,7 +14,7 @@ namespace RLCreature.Sample.DesignedCreatures
     public class DesignedCreaturesEntryPoint : MonoBehaviour
     {
         private Rect _size;
-        public int FoodCount = 800;
+        public int FoodCount = 100;
         public int CreatureCountPerPrefab = 10;
         public GameObject Plane;
         public List<GameObject> CreaturePrefabs;
@@ -21,7 +23,9 @@ namespace RLCreature.Sample.DesignedCreatures
         private void Start()
         {
             GameUI = CastUIPresenter.CreateComponent(Camera.main, gameObject);
-            CastCameraController.CreateComponent(Camera.main, GameUI.SelectedCreature, GameUI.FallbackedEventsObservable);
+            CastCameraController.CreateComponent(Camera.main, GameUI.SelectedCreature,
+                GameUI.FallbackedEventsObservable);
+            GameUI.LeftToolBar.Add(new SystemActions());
 
             Plane.transform.position = Vector3.zero;
             Plane.transform.localScale = Vector3.one * 10;
@@ -33,8 +37,7 @@ namespace RLCreature.Sample.DesignedCreatures
                 Plane.transform.lossyScale.y * unitPlaneSize
             );
             StartCoroutine(Feeder());
-//            StartCoroutine(SpawnSome());
-            
+
             foreach (var creaturePrefab in CreaturePrefabs)
             {
                 for (var i = 0; i < CreatureCountPerPrefab; i++)
@@ -46,24 +49,27 @@ namespace RLCreature.Sample.DesignedCreatures
                     var creatureRootGameObject = Instantiate(creaturePrefab, pos, Quaternion.identity);
                     var creature = StartCreature(creatureRootGameObject,
                         creatureRootGameObject.transform.GetChild(0).gameObject);
+                    creature.name = creaturePrefab.name;
                     GameUI.AddAgent(creature);
                 }
             }
         }
-        
-        
+
+
         private Agent StartCreature(GameObject creatureRootGameObject, GameObject centralBody)
         {
+            // Add Sensor and Mouth for food
             Sensor.CreateComponent(centralBody, typeof(Food), State.BasicKeys.RelativeFoodPosition, range: 100f);
             Mouth.CreateComponent(centralBody, typeof(Food));
 
+            // Initialize Brain
             var actions = LocomotionAction.EightDirections();
             var sequenceMaker = new EvolutionarySequenceMaker(epsilon: 0.1f, minimumCandidates: 30);
-            var brain = new Brain(
-                new FollowPointDecisionMaker(State.BasicKeys.RelativeFoodPosition),
-                sequenceMaker
-            );
-            var agent = Agent.CreateComponent(creatureRootGameObject, brain, new Body(centralBody), actions);
+            var decisionMaker = new FollowPointDecisionMaker(State.BasicKeys.RelativeFoodPosition);
+            var souls = new List<ISoul>() {new GluttonySoul()};
+
+            var brain = new Brain(decisionMaker, sequenceMaker);
+            var agent = Agent.CreateComponent(creatureRootGameObject, brain, new Body(centralBody), actions, souls);
 
             return agent;
         }
@@ -82,7 +88,7 @@ namespace RLCreature.Sample.DesignedCreatures
                 yield return new WaitForSeconds(5);
             }
         }
-        
+
 
         private void Feed()
         {
@@ -97,6 +103,5 @@ namespace RLCreature.Sample.DesignedCreatures
                 z: _size.yMin + Random.value * _size.height
             );
         }
-
     }
 }

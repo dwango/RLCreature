@@ -4,7 +4,9 @@ using MotionGenerator;
 using RLCreature.BodyGenerator;
 using RLCreature.BodyGenerator.JointGenerator;
 using RLCreature.BodyGenerator.Manipulatables;
+using RLCreature.Sample.Common;
 using RLCreature.Sample.Common.UI;
+using RLCreature.Sample.Common.UI.Actions;
 using RLCreature.Sample.SimpleHunting;
 using UnityEngine;
 
@@ -20,8 +22,10 @@ namespace RLCreature.Sample.RandomCreatures
         private void Start()
         {
             GameUI = CastUIPresenter.CreateComponent(Camera.main, gameObject);
-            CastCameraController.CreateComponent(Camera.main, GameUI.SelectedCreature, GameUI.FallbackedEventsObservable);
-            
+            CastCameraController.CreateComponent(Camera.main, GameUI.SelectedCreature,
+                GameUI.FallbackedEventsObservable);
+            GameUI.LeftToolBar.Add(new SystemActions());
+
             Plane.GetComponent<Renderer>().material = Resources.Load("Materials/Ground", typeof(Material)) as Material;
             Plane.transform.position = Vector3.zero;
             Plane.transform.localScale = Vector3.one * 100;
@@ -34,7 +38,7 @@ namespace RLCreature.Sample.RandomCreatures
             );
 
 
-            var generator = new JointGenerator(new[]
+            var generator = new TreeJointGenerator(new[]
             {
                 Resources.Load<GameObject>("Prefabs/CubeBody"),
                 Resources.Load<GameObject>("Prefabs/CubeBody2"),
@@ -54,7 +58,7 @@ namespace RLCreature.Sample.RandomCreatures
 
         private IEnumerator SpawnSome(JointGenerator generator)
         {
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 5; i++)
             {
                 SpawnCreature(generator);
                 yield return new WaitForSeconds(10);
@@ -74,20 +78,22 @@ namespace RLCreature.Sample.RandomCreatures
                 y: 3,
                 z: _size.yMin + Random.value * _size.height
             );
-            var centralBody = generator.Instantiate(pos);
+            var rootObject = generator.Instantiate(pos);
+            var centralBody = rootObject.transform.GetChild(0).gameObject;
             Sensor.CreateComponent(centralBody, typeof(Food), State.BasicKeys.RelativeFoodPosition, range: 100f);
-            Mouth.CreateComponent(centralBody, typeof(Food));
+            var mouth = Mouth.CreateComponent(centralBody, typeof(Food));
 
             var actions = LocomotionAction.EightDirections();
-            var sequenceMaker = new EvolutionarySequenceMaker(epsilon: 0.1f, minimumCandidates: 30);
+            var sequenceMaker = new EvolutionarySequenceMaker(epsilon: 0.3f, minimumCandidates: 30);
             var brain = new Brain(
                 new FollowPointDecisionMaker(State.BasicKeys.RelativeFoodPosition),
                 sequenceMaker
             );
-            
-            var agent = Agent.CreateComponent(centralBody, brain, new Body(centralBody), actions);
+
+            var agent = Agent.CreateComponent(rootObject, brain, new Body(rootObject), actions);
             agent.name = RandomName();
-            GameUI.AddAgent(agent);
+            var info = GameUI.AddAgent(agent);
+            StartCoroutine(EntryPointUtility.Rename(info, agent, mouth));
         }
 
         private IEnumerator Feeder()
@@ -116,6 +122,7 @@ namespace RLCreature.Sample.RandomCreatures
                 y: 0,
                 z: _size.yMin + Random.value * _size.height
             );
+            StartCoroutine(EntryPointUtility.DeleteTimer(foodObject, 60 * 10));
         }
     }
 }

@@ -1,6 +1,6 @@
-[submodule "Assets/MotionGenerator"]
-	path = Assets/MotionGenerator
-	url = git@github.o-in.dwango.co.jp:Dada/MotionGenerator.git
 [submodule "Assets/Packages/SimpleJSON"]
 	path = Assets/Packages/SimpleJSON
 	url = https://github.com/Bunny83/SimpleJSON.git
+[submodule "Assets/MotionGenerator"]
+	path = Assets/MotionGenerator
+	url = https://github.com/dwango/MotionGenerator.git

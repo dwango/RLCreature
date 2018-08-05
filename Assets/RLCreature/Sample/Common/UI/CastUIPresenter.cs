@@ -82,12 +82,13 @@ namespace RLCreature.Sample.Common.UI
             Destroy(_subCamera);
         }
         
-        public void AddAgent(Agent agent)
+        public CreatureInfoCell AddAgent(Agent agent)
         {
             var displayName = agent.name;
-            _creatureInfoList.Add(agent.gameObject, displayName);
+            var cell = _creatureInfoList.Add(agent.gameObject, displayName);
             SelectableCreature.CreateComponent(agent.gameObject, _targetCamera.transform, SelectedCreature);
             _subCameraStrategy.Add(agent);
+            return cell;
         }
 
 

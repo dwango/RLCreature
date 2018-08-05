@@ -50,7 +50,7 @@ namespace RLCreature.BodyGenerator
             body.Manipulate(ms);
         }
 
-        void Update()
+        void FixedUpdate()
         {
             if (transform.position.y < 0) // out from ground
             {

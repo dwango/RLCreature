@@ -50,7 +50,7 @@ namespace RLCreature.Sample.Common.UI.UIComponents
             }
         }
 
-        public void Add(GameObject creature, string name)
+        public CreatureInfoCell Add(GameObject creature, string name)
         {
             var cell = Object.Instantiate(Resources.Load<CreatureInfoCell>(CreatureCellPrefabPath));
             cell.Creature = creature;
@@ -74,6 +74,8 @@ namespace RLCreature.Sample.Common.UI.UIComponents
             {
                 _cells[creature].Selected.Value = true;
             }
+
+            return cell;
         }
 
         public void Remove(GameObject creature)

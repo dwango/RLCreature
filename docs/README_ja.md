@@ -1,10 +1,11 @@
-# RLCreature
+# RLCreature for Unity
 
-- [日本語](./docs/README_ja.md)
+スマートフォンで人工生命数十体がリアルタイムに学習可能な深層強化学習
+
 - [Project Page](https://dmv.nico/ja/casestudy/alife/)
 - [Paper](https://dmv.nico/assets/img/casestudy/alife/siggraph2018_alife.pdf)
 
-![](./docs/20180801_OSS_showcase.gif)
+![](./20180801_OSS_showcase.gif)
 
 サンプルデモを動かす
 ===========================

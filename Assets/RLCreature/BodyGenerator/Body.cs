@@ -31,6 +31,7 @@ namespace RLCreature.BodyGenerator
         GameObject rootObject;
         List<IManipulatable> manipulatables;
         Motor motor;
+        private DenseVector _birthPosition;
 
         public Body(GameObject rootObject)
         {
@@ -39,6 +40,8 @@ namespace RLCreature.BodyGenerator
 
         public void Init(List<IManipulatable> manipulatables, List<IAction> actions)
         {
+            var position = rootObject.transform.position;
+            _birthPosition = new DenseVector(new double[]{position.x, position.y, position.z});
             this.manipulatables = manipulatables;
             foreach (var manipulatable in this.manipulatables)
             {
@@ -63,6 +66,7 @@ namespace RLCreature.BodyGenerator
             var position = rootObject.transform.position;
             var rotation = rootObject.transform.rotation;
             var forward = rootObject.transform.forward;
+            state[State.BasicKeys.BirthPosition] = _birthPosition;
             state[State.BasicKeys.Position] = new DenseVector(new double[] {position.x, position.y, position.z});
             state[State.BasicKeys.Rotation] =
                 new DenseVector(new double[] {rotation.x, rotation.y, rotation.z, rotation.w});

@@ -44,7 +44,8 @@ namespace RLCreature.BodyGenerator.Manipulatables
                         0,
                         _sequence[0].value[1] > 0.5f ? -1 : 1
                     );
-                    _rigidbody.MovePosition(gameObject.transform.position + towardVector * _speed);
+                    _rigidbody.AddRelativeForce(towardVector * _speed * 1000000, ForceMode.Impulse);
+//                    _rigidbody.MovePosition(gameObject.transform.position + towardVector * _speed);
                     _sequence.Sequence.RemoveAt(0);
                 }
             }
@@ -60,6 +61,7 @@ namespace RLCreature.BodyGenerator.Manipulatables
         {
             _rigidbody = gameObject.GetComponent<Rigidbody>();
             _rigidbody.maxDepenetrationVelocity = Mathf.Infinity;
+            _rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
         }
 
         public override int GetManipulatableDimention()

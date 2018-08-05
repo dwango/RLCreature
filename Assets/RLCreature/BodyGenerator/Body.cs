@@ -66,6 +66,7 @@ namespace RLCreature.BodyGenerator
             var position = rootObject.transform.position;
             var rotation = rootObject.transform.rotation;
             var forward = rootObject.transform.forward;
+            state[State.BasicKeys.Time] = new DenseVector(new double[]{Time.time});
             state[State.BasicKeys.BirthPosition] = _birthPosition;
             state[State.BasicKeys.Position] = new DenseVector(new double[] {position.x, position.y, position.z});
             state[State.BasicKeys.Rotation] =

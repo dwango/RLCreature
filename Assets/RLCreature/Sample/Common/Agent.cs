@@ -18,17 +18,22 @@ namespace RLCreature.BodyGenerator
             return transform.gameObject.GetComponentsInChildren<IManipulatable>().ToList();
         }
 
-        public static Agent CreateComponent(GameObject obj, IBrain brain, Body body, List<IAction> actions)
+        public static Agent CreateComponent(GameObject obj, IBrain brain, Body body, List<IAction> actions, List<ISoul> souls = null)
         {
-            return obj.AddComponent<Agent>()._CreateComponent(brain, body, actions);
+            return obj.AddComponent<Agent>()._CreateComponent(brain, body, actions, souls);
         }
 
-        private Agent _CreateComponent(IBrain brain, Body body, List<IAction> actions)
+        private Agent _CreateComponent(IBrain brain, Body body, List<IAction> actions, List<ISoul> souls = null)
         {
             List<IManipulatable> manipulatables = GetChildrenManipulatables();
             for (int i = 0; i < manipulatables.Count; i++)
             {
                 manipulatables[i].SetManipulatableId(i); // just an ID
+            }
+
+            if (souls == null)
+            {
+                souls = new List<ISoul>() {new GluttonySoul()};
             }
 
             body.Init(manipulatables, actions);
@@ -37,7 +42,7 @@ namespace RLCreature.BodyGenerator
                     .Where(m => m.GetManipulatableDimention() > 0)
                     .Select(m => m.GetManipulatableDimention()).ToList(),
                 actions,
-                new List<ISoul>() {new GluttonySoul()});
+                souls);
             this.brain = brain;
             this.body = body;
             return this;

@@ -25,13 +25,16 @@ namespace RLCreature.Sample.Common.UI.Actions
                     "TimeScale x1", () => { Time.timeScale = 1; }
                 },
                 {
-                    "TimeScale x2", () => { Time.timeScale = 2; }
+                    "TimeScale x3", () => { Time.timeScale = 3; }
                 },
                 {
                     "TimeScale x5", () => { Time.timeScale = 5; }
                 },
                 {
                     "TimeScale x10", () => { Time.timeScale = 10; }
+                },
+                {
+                    "TimeScale x30", () => { Time.timeScale = 30; }
                 }
             };
         }

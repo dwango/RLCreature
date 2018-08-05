@@ -17,6 +17,7 @@
 
 ### 1. レポジトリをクローン
 
+- `git clone --recursive https://github.com/dwango/RLCreature.git`
 - git-lfsが必要です
 
 ### 2. 依存ライブラリをインストール
@@ -31,9 +32,11 @@
 
 ### 3. デモシーンを開く
 
-- ひたすらキューブが進むだけ
-  - Assets/Sample/SimpleHunting
-
+- Assets/RLCreature/Sample/RandomCreatures
+- Assets/RLCreature/Sample/DesignedCreatures
+- Assets/RLCreature/Sample/VariousHeights
+- Assets/RLCreature/Sample/Driving
+- Assets/RLCreature/Sample/SimpleHunting
 
 Create Original Creatures
 ===========================

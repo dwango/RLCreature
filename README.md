@@ -1,6 +1,5 @@
-# RLCreature
+# RLCreature for Unity ([日本語](./docs/README_ja.md))
 
-- [日本語](./docs/README_ja.md)
 - [Project Page](https://dmv.nico/ja/casestudy/alife/)
 - [Paper](https://dmv.nico/assets/img/casestudy/alife/siggraph2018_alife.pdf)
 
@@ -9,30 +8,32 @@
 サンプルデモを動かす
 ===========================
 
-### 0. Unityを用意
+### 0. Install Unity
 
-- 2018が推奨
-- ScriptingRuntimeVersionを必ず.NET4.Xにして動かして下さい
+- We are using 2018
+- Set ScriptingRuntimeVersion to .NET4.X
 
-### 1. レポジトリをクローン
+### 1. Clone Repository
 
-- git-lfsが必要です
+- `git clone --recursive https://github.com/dwango/RLCreature.git`
+- git-lfs is required
 
-### 2. 依存ライブラリをインストール
+### 2. Install Dependencies
 
 - MessagePack-CSharp
   - https://github.com/neuecc/MessagePack-CSharp/releases
-    - unitypackageをダウンロードしてインストールしてください
 - UniRX
   - https://assetstore.unity.com/packages/tools/integration/unirx-reactive-extensions-for-unity-17276
 - Standard Assets
   - https://assetstore.unity.com/packages/essentials/asset-packs/standard-assets-32351
 
-### 3. デモシーンを開く
+### 3. Open Demo Scenes
 
-- ひたすらキューブが進むだけ
-  - Assets/Sample/SimpleHunting
-
+- Assets/RLCreature/Sample/RandomCreatures
+- Assets/RLCreature/Sample/DesignedCreatures
+- Assets/RLCreature/Sample/VariousHeights
+- Assets/RLCreature/Sample/Driving
+- Assets/RLCreature/Sample/SimpleHunting
 
 Create Original Creatures
 ===========================

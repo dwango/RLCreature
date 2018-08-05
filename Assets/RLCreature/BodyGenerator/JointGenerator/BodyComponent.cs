@@ -11,12 +11,16 @@ namespace RLCreature.BodyGenerator.JointGenerator
 {
     public class BodyComponent
     {
+        private readonly float _baseMass;
+        private readonly float _targetForce;
         private readonly MasterConnector[] _masterConnectors;
         private readonly SlaveConnector _slaveConnector;
         public readonly GameObject CentralBody;
 
-        public BodyComponent(GameObject prefab, Vector3 pos, int connectorId = -1, BodyComponent parent = null)
+        public BodyComponent(GameObject prefab, Vector3 pos, int connectorId = -1, BodyComponent parent = null, float baseMass = 20, float targetForce = 1)
         {
+            _baseMass = baseMass;
+            _targetForce = targetForce;
             CentralBody = GameObject.Instantiate(prefab, pos, Quaternion.identity);
             _masterConnectors = CentralBody.GetComponentsInChildren<MasterConnector>();
             foreach (var connector in _masterConnectors)
@@ -45,8 +49,8 @@ namespace RLCreature.BodyGenerator.JointGenerator
             }
         }
 
-        public BodyComponent(GameObject prefab, int connectorId = -1, BodyComponent parent = null) : this(
-            prefab, Vector3.up * 10, connectorId, parent)
+        public BodyComponent(GameObject prefab, int connectorId = -1, BodyComponent parent = null, float baseMass = 20, float targetForce = 1) : this(
+            prefab, Vector3.up * 10, connectorId, parent, baseMass: baseMass, targetForce:targetForce)
         {
         }
 
@@ -61,7 +65,7 @@ namespace RLCreature.BodyGenerator.JointGenerator
             foreach (var rigid in CentralBody.GetComponentsInChildren<Rigidbody>())
             {
                 rigid.solverIterations = 30;
-                rigid.mass = 500;
+                rigid.mass = _baseMass;
                 rigid.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             }
         }
@@ -95,14 +99,14 @@ namespace RLCreature.BodyGenerator.JointGenerator
             otherComponent.ToRigid();
 
             var joint = CentralBody.gameObject.AddComponent<ConfigurableJoint>();
-            joint.lowAngularXLimit = new SoftJointLimit {limit = -90};
-            joint.highAngularXLimit = new SoftJointLimit {limit = 90};
-            joint.angularYLimit = new SoftJointLimit {limit = 90};
-            joint.angularZLimit = new SoftJointLimit {limit = 90};
+            joint.lowAngularXLimit = new SoftJointLimit {limit = -60};
+            joint.highAngularXLimit = new SoftJointLimit {limit = 60};
+            joint.angularYLimit = new SoftJointLimit {limit = 30};
+            joint.angularZLimit = new SoftJointLimit {limit = 0};
             joint.projectionMode = JointProjectionMode.PositionAndRotation; // 爆発防止
             joint.connectedBody = otherComponent.CentralBody.GetComponent<Rigidbody>();
             joint.anchor = connector.transform.localPosition;
-            Joint.CreateComponent(joint, targetForce: 10f);
+            Joint.CreateComponent(joint, targetForce: _targetForce);
             Physics.IgnoreCollision(CentralBody.GetComponent<Collider>(),
                 otherComponent.CentralBody.GetComponent<Collider>());
             connector.available = false;

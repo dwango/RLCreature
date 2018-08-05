@@ -7,18 +7,22 @@ namespace RLCreature.BodyGenerator.JointGenerator
     {
         protected readonly GameObject[] BodyPrefabs;
         protected readonly GameObject[] ArmPrefabs;
+        private readonly float _baseMass;
+        private readonly float _targetForce;
 
-        public JointGenerator(GameObject[] bodyPrefabs, GameObject[] armPrefabs)
+        public JointGenerator(GameObject[] bodyPrefabs, GameObject[] armPrefabs, float baseMass = 20, float targetForce = 1)
         {
             BodyPrefabs = bodyPrefabs;
             ArmPrefabs = armPrefabs;
+            _baseMass = baseMass;
+            _targetForce = targetForce;
         }
 
         public virtual GameObject Instantiate(Vector3 pos)
         {
             var components = new List<BodyComponent>();
             var rootComponent =
-                new BodyComponent(BodyPrefabs[UnityEngine.Random.Range(0, BodyPrefabs.Length)], pos: pos);
+                new BodyComponent(BodyPrefabs[UnityEngine.Random.Range(0, BodyPrefabs.Length)], pos: pos, baseMass: _baseMass, _targetForce: _targetForce);
             components.Add(rootComponent);
             for (int i = 0; i < UnityEngine.Random.Range(1, 20); i++)
             {

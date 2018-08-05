@@ -4,6 +4,7 @@ using MotionGenerator;
 using MotionGenerator.Entity.Soul;
 using RLCreature.BodyGenerator;
 using RLCreature.BodyGenerator.Manipulatables;
+using RLCreature.Sample.Common;
 using RLCreature.Sample.Common.UI;
 using RLCreature.Sample.Common.UI.Actions;
 using RLCreature.Sample.SimpleHunting;
@@ -14,7 +15,7 @@ namespace RLCreature.Sample.DesignedCreatures
     public class DesignedCreaturesEntryPoint : MonoBehaviour
     {
         private Rect _size;
-        public int FoodCount = 100;
+        public int FoodCount = 800;
         public int CreatureCountPerPrefab = 10;
         public GameObject Plane;
         public List<GameObject> CreaturePrefabs;
@@ -28,7 +29,7 @@ namespace RLCreature.Sample.DesignedCreatures
             GameUI.LeftToolBar.Add(new SystemActions());
 
             Plane.transform.position = Vector3.zero;
-            Plane.transform.localScale = Vector3.one * 10;
+            Plane.transform.localScale = Vector3.one * 100;
             var unitPlaneSize = 10;
             _size = new Rect(
                 (Plane.transform.position.x - Plane.transform.lossyScale.x * unitPlaneSize) / 2,
@@ -49,8 +50,7 @@ namespace RLCreature.Sample.DesignedCreatures
                     var creatureRootGameObject = Instantiate(creaturePrefab, pos, Quaternion.identity);
                     var creature = StartCreature(creatureRootGameObject,
                         creatureRootGameObject.transform.GetChild(0).gameObject);
-                    creature.name = creaturePrefab.name;
-                    GameUI.AddAgent(creature);
+                    creature.name = creaturePrefab.name.Substring(0, Mathf.Min(15, creaturePrefab.name.Length));
                 }
             }
         }
@@ -60,7 +60,7 @@ namespace RLCreature.Sample.DesignedCreatures
         {
             // Add Sensor and Mouth for food
             Sensor.CreateComponent(centralBody, typeof(Food), State.BasicKeys.RelativeFoodPosition, range: 100f);
-            Mouth.CreateComponent(centralBody, typeof(Food));
+            var mouth = Mouth.CreateComponent(centralBody, typeof(Food));
 
             // Initialize Brain
             var actions = LocomotionAction.EightDirections();
@@ -71,6 +71,9 @@ namespace RLCreature.Sample.DesignedCreatures
             var brain = new Brain(decisionMaker, sequenceMaker);
             var agent = Agent.CreateComponent(creatureRootGameObject, brain, new Body(centralBody), actions, souls);
 
+            var info = GameUI.AddAgent(agent);
+
+            StartCoroutine(EntryPointUtility.Rename(info, agent, mouth));
             return agent;
         }
 
@@ -88,7 +91,6 @@ namespace RLCreature.Sample.DesignedCreatures
                 yield return new WaitForSeconds(5);
             }
         }
-
 
         private void Feed()
         {

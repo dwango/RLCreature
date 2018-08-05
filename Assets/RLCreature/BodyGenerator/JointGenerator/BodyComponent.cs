@@ -36,7 +36,7 @@ namespace RLCreature.BodyGenerator.JointGenerator
             {
                 if (connectorId >= 0)
                 {
-                    parent.Connect(connectorId, parent);
+                    parent.Connect(connectorId, this);
                 }
                 else
                 {

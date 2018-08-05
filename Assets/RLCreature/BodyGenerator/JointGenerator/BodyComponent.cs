@@ -36,7 +36,7 @@ namespace RLCreature.BodyGenerator.JointGenerator
             {
                 if (connectorId >= 0)
                 {
-                    parent.Connect(connectorId, this);
+                    parent.Connect(connectorId, parent);
                 }
                 else
                 {
@@ -98,14 +98,18 @@ namespace RLCreature.BodyGenerator.JointGenerator
 
             otherComponent.ToRigid();
 
-            var joint = CentralBody.gameObject.AddComponent<ConfigurableJoint>();
+            var joint = otherComponent.CentralBody.gameObject.AddComponent<ConfigurableJoint>();
+//            joint.lowAngularXLimit = new SoftJointLimit {limit = -60};
+//            joint.highAngularXLimit = new SoftJointLimit {limit = 60};
+//            joint.angularYLimit = new SoftJointLimit {limit = 60};
+//            joint.angularZLimit = new SoftJointLimit {limit = 60};
             joint.lowAngularXLimit = new SoftJointLimit {limit = -60};
             joint.highAngularXLimit = new SoftJointLimit {limit = 60};
             joint.angularYLimit = new SoftJointLimit {limit = 30};
             joint.angularZLimit = new SoftJointLimit {limit = 0};
             joint.projectionMode = JointProjectionMode.PositionAndRotation; // 爆発防止
-            joint.connectedBody = otherComponent.CentralBody.GetComponent<Rigidbody>();
-            joint.anchor = connector.transform.localPosition;
+            joint.connectedBody = CentralBody.GetComponent<Rigidbody>();
+            joint.anchor = otherComponent._slaveConnector.transform.localPosition;
             Joint.CreateComponent(joint, targetForce: _targetForce);
             Physics.IgnoreCollision(CentralBody.GetComponent<Collider>(),
                 otherComponent.CentralBody.GetComponent<Collider>());

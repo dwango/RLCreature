@@ -5,7 +5,7 @@
 
 ![](./docs/20180801_OSS_showcase.gif)
 
-サンプルデモを動かす
+Install
 ===========================
 
 ### 0. Install Unity
